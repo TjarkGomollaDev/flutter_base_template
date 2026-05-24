@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_base_template/3rd_layer_domain/interfaces_repositories/interface_user_repository.dart';
 import 'package:flutter_base_template/core/extensions/string_extensions.dart';
 import 'package:meta/meta.dart';
 
@@ -9,13 +8,11 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  final InterfaceUserRepository _userRepository;
   late String username;
   late List<String> letters;
 
-  HomeBloc({required InterfaceUserRepository userRepository})
-      : _userRepository = userRepository,
-        super(HomeState.initial()) {
+  HomeBloc()
+      : super(HomeState.initial()) {
     on<HomeEventStart>(_onStart);
     on<_HomeEventUpdateDisplayUsername>(_onUpdateDisplayUsername);
     on<HomeEventChangeMenuChipsIndex>(_onChangeMenuChipsIndex);
@@ -38,7 +35,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   void shuffleUsername() async {
-    username = 'Maurice999';
+    username = 'User';
     letters = List<String>.filled(username.length, '');
     final isLetterLowerCase = username.isLowerCase();
     for (var i = 0; i < username.length; i++) {

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_template/1st_layer_presentation/core_widgets.dart/core_overlay_wrapper.dart';
 import 'package:flutter_base_template/1st_layer_presentation/home/widgets/home_app_bar.dart';
-import 'package:flutter_base_template/1st_layer_presentation/home/widgets/home_nav_bar.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({
@@ -10,16 +8,20 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CoreOverlayWrapper(
-      child: Scaffold(
-        extendBody: true,
-        body: CustomScrollView(
-          physics: BouncingScrollPhysics(),
-          slivers: [
-            const HomeAppBar(),
-          ],
-        ),
-        bottomNavigationBar: HomeNavBar(),
+    return Scaffold(
+      body: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
+          const HomeAppBar(),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: const Center(
+                child: Text('Placeholder Home Page'),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

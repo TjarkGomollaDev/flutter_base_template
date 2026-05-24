@@ -1,1 +1,0 @@
-class ErrorChatbotRequest extends Error {}

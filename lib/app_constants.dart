@@ -51,8 +51,4 @@ abstract class AppConstants {
     sigmaX: 10,
     sigmaY: 12,
   );
-
-  // #### SPECIFIC CONSTANTS ###################################
-  // ai chat
-  static const double AI_CHAT_APP_BAR_HEIGHT = 75;
 }

@@ -5,26 +5,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AppSettingsLocalDatasource implements InterfaceAppSettingsLocalDatasource {
   final SharedPreferences _sharedPreferences;
-  static const String _STORAGE_DEVICE_OPEN_FIRST_TIME = 'device_first_open';
   static const String _STORAGE_USE_STYSTEM_THEME = 'use_system_theme';
   static const String _STORAGE_THEME_MODE = 'theme_mode';
   static const String _STORAGE_APPLICATION_INDEX = 'app_index';
-  static const String _STORAGE_RECENT_SEARCHES = 'recent_searches';
 
   AppSettingsLocalDatasource({
     required SharedPreferences sharedPreferences,
   }) : _sharedPreferences = sharedPreferences;
-
-  // onboarding
-  @override
-  Future<void> setDeviceOpenFirstTime({required bool value}) async {
-    await _sharedPreferences.setBool(_STORAGE_DEVICE_OPEN_FIRST_TIME, value);
-  }
-
-  @override
-  bool getDeviceOpenFirstTime() {
-    return _sharedPreferences.getBool(_STORAGE_DEVICE_OPEN_FIRST_TIME) ?? true;
-  }
 
   // theme
   @override
@@ -61,21 +48,5 @@ class AppSettingsLocalDatasource implements InterfaceAppSettingsLocalDatasource 
   @override
   Future<void> resetApplicationIndex() async {
     await _sharedPreferences.remove(_STORAGE_APPLICATION_INDEX);
-  }
-
-  // recent searches
-  @override
-  Future<void> setRecentSearches({required List<String> recentSearches}) async {
-    await _sharedPreferences.setStringList(_STORAGE_RECENT_SEARCHES, recentSearches);
-  }
-
-  @override
-  List<String> getRecentSearches() {
-    return _sharedPreferences.getStringList(_STORAGE_RECENT_SEARCHES) ?? [];
-  }
-
-  @override
-  Future<void> resetRecentSearches() async {
-    await _sharedPreferences.remove(_STORAGE_RECENT_SEARCHES);
   }
 }
