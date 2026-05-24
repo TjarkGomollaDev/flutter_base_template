@@ -1,8 +1,8 @@
 import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/interfaces_repositories/interface_user_repository.dart';
-import 'package:mark_lxxxv/core/extensions/string_extensions.dart';
+import 'package:flutter_base_template/3rd_layer_domain/interfaces_repositories/interface_user_repository.dart';
+import 'package:flutter_base_template/core/extensions/string_extensions.dart';
 import 'package:meta/meta.dart';
 
 part 'home_event.dart';

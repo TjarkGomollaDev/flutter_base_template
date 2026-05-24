@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/entities/user_application_entity.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/interfaces_repositories/interface_auth_repository.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/interfaces_repositories/interface_user_repository.dart';
-import 'package:mark_lxxxv/core/errors/auth_errors.dart';
-import 'package:mark_lxxxv/core/validators/input_auth_validators.dart';
+import 'package:flutter_base_template/3rd_layer_domain/entities/user_application_entity.dart';
+import 'package:flutter_base_template/3rd_layer_domain/interfaces_repositories/interface_auth_repository.dart';
+import 'package:flutter_base_template/3rd_layer_domain/interfaces_repositories/interface_user_repository.dart';
+import 'package:flutter_base_template/core/errors/auth_errors.dart';
+import 'package:flutter_base_template/core/validators/input_auth_validators.dart';
 
 part 'sign_in_event.dart';
 part 'sign_in_state.dart';

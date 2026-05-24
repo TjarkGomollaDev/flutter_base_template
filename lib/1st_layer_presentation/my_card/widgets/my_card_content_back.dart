@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/core_widgets.dart/core_label_btn.dart';
-import 'package:mark_lxxxv/app_constants.dart';
-import 'package:mark_lxxxv/app_theme.dart';
+import 'package:flutter_base_template/1st_layer_presentation/core_widgets.dart/core_label_btn.dart';
+import 'package:flutter_base_template/app_constants.dart';
+import 'package:flutter_base_template/app_theme.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/interfaces_repositories/interface_auth_repository.dart';
-import 'package:mark_lxxxv/app_dependency_injection.dart';
+import 'package:flutter_base_template/3rd_layer_domain/interfaces_repositories/interface_auth_repository.dart';
+import 'package:flutter_base_template/app_dependency_injection.dart';
 
 class MyCardContentBack extends StatelessWidget {
   const MyCardContentBack({super.key});

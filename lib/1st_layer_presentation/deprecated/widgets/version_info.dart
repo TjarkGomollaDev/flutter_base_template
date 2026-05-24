@@ -1,9 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:mark_lxxxv/app_constants.dart';
-import 'package:mark_lxxxv/app_theme.dart';
-import 'package:mark_lxxxv/core/extensions/build_context_extensions.dart';
-import 'package:mark_lxxxv/core/extensions/theme_extensions.dart';
+import 'package:flutter_base_template/app_constants.dart';
+import 'package:flutter_base_template/app_theme.dart';
+import 'package:flutter_base_template/core/extensions/build_context_extensions.dart';
+import 'package:flutter_base_template/core/extensions/theme_extensions.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class VersionInfo extends StatelessWidget {

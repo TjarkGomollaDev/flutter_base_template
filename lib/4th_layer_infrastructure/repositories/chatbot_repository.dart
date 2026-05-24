@@ -1,11 +1,11 @@
 // ignore_for_file: constant_identifier_names
 
 import 'dart:convert';
-import 'package:mark_lxxxv/3rd_layer_domain/entities/ai_message_entity.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/interfaces_repositories/interface_chatbot_repository.dart';
+import 'package:flutter_base_template/3rd_layer_domain/entities/ai_message_entity.dart';
+import 'package:flutter_base_template/3rd_layer_domain/interfaces_repositories/interface_chatbot_repository.dart';
 import 'package:http/http.dart' as http;
-import 'package:mark_lxxxv/4th_layer_infrastructure/models/ai_message_model.dart';
-import 'package:mark_lxxxv/core/errors/chatbot_errors.dart';
+import 'package:flutter_base_template/4th_layer_infrastructure/models/ai_message_model.dart';
+import 'package:flutter_base_template/core/errors/chatbot_errors.dart';
 
 class ChatbotRepository implements InterfaceChatbotRepository {
   static const String _API_KEY =

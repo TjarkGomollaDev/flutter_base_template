@@ -1,4 +1,4 @@
-import 'package:mark_lxxxv/core/datatypes/node.dart';
+import 'package:flutter_base_template/core/datatypes/node.dart';
 
 class DoublyLinkedList<T> {
   Node<T>? head;

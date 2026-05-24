@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:mark_lxxxv/4th_layer_infrastructure/models/auth_third_party_model.dart';
-import 'package:mark_lxxxv/4th_layer_infrastructure/models/auth_user_model.dart';
+import 'package:flutter_base_template/4th_layer_infrastructure/models/auth_third_party_model.dart';
+import 'package:flutter_base_template/4th_layer_infrastructure/models/auth_user_model.dart';
 
 abstract class InterfaceAuthRepository {
   // sign in with email and password

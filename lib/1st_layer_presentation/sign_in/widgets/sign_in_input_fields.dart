@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mark_lxxxv/2nd_layer_application/auth/sign_in_bloc/sign_in_bloc.dart';
-import 'package:mark_lxxxv/app_constants.dart';
-import 'package:mark_lxxxv/app_theme.dart';
-import 'package:mark_lxxxv/core/extensions/build_context_extensions.dart';
-import 'package:mark_lxxxv/core/extensions/int_double_extensions.dart';
+import 'package:flutter_base_template/2nd_layer_application/auth/sign_in_bloc/sign_in_bloc.dart';
+import 'package:flutter_base_template/app_constants.dart';
+import 'package:flutter_base_template/app_theme.dart';
+import 'package:flutter_base_template/core/extensions/build_context_extensions.dart';
+import 'package:flutter_base_template/core/extensions/int_double_extensions.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class SignInInputFields extends StatelessWidget {

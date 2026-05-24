@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/entities/chat_entity.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/entities/message_entity.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/interfaces_repositories/interface_chat_repository.dart';
-import 'package:mark_lxxxv/4th_layer_infrastructure/models/chat_model.dart';
-import 'package:mark_lxxxv/4th_layer_infrastructure/models/message_model.dart';
-import 'package:mark_lxxxv/core/enums/message_type.dart';
-import 'package:mark_lxxxv/core/errors/chat_errors.dart';
+import 'package:flutter_base_template/3rd_layer_domain/entities/chat_entity.dart';
+import 'package:flutter_base_template/3rd_layer_domain/entities/message_entity.dart';
+import 'package:flutter_base_template/3rd_layer_domain/interfaces_repositories/interface_chat_repository.dart';
+import 'package:flutter_base_template/4th_layer_infrastructure/models/chat_model.dart';
+import 'package:flutter_base_template/4th_layer_infrastructure/models/message_model.dart';
+import 'package:flutter_base_template/core/enums/message_type.dart';
+import 'package:flutter_base_template/core/errors/chat_errors.dart';
 
 class ChatRepository implements InterfaceChatRepository {
   final FirebaseFirestore _firestore;

@@ -1,4 +1,4 @@
-import 'package:mark_lxxxv/core/enums/message_type.dart';
+import 'package:flutter_base_template/core/enums/message_type.dart';
 
 final messageData = [
   {

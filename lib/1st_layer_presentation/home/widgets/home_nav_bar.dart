@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/home/widgets/home_nav_bar_item.dart';
-import 'package:mark_lxxxv/2nd_layer_application/application/application_bloc/application_bloc.dart';
-import 'package:mark_lxxxv/app_constants.dart';
-import 'package:mark_lxxxv/core/extensions/int_double_extensions.dart';
+import 'package:flutter_base_template/1st_layer_presentation/home/widgets/home_nav_bar_item.dart';
+import 'package:flutter_base_template/2nd_layer_application/application/application_bloc/application_bloc.dart';
+import 'package:flutter_base_template/app_constants.dart';
+import 'package:flutter_base_template/core/extensions/int_double_extensions.dart';
 
 class HomeNavBar extends StatelessWidget {
   const HomeNavBar({super.key});

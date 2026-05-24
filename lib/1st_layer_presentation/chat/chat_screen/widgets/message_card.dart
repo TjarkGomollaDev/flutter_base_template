@@ -1,9 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mark_lxxxv/app_theme.dart';
-import 'package:mark_lxxxv/core/enums/message_type.dart';
-import 'package:mark_lxxxv/core/extensions/build_context_extensions.dart';
+import 'package:flutter_base_template/app_theme.dart';
+import 'package:flutter_base_template/core/enums/message_type.dart';
+import 'package:flutter_base_template/core/extensions/build_context_extensions.dart';
 
 class MessageCard extends StatelessWidget {
   final String message;

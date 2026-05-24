@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mark_lxxxv/2nd_layer_application/application/theme_bloc/theme_bloc.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/interfaces_local_datasources/interface_app_settings_local_datasource.dart';
-import 'package:mark_lxxxv/app_dependency_injection.dart';
-import 'package:mark_lxxxv/app_router.dart';
-import 'package:mark_lxxxv/app_theme.dart';
+import 'package:flutter_base_template/2nd_layer_application/application/theme_bloc/theme_bloc.dart';
+import 'package:flutter_base_template/3rd_layer_domain/interfaces_local_datasources/interface_app_settings_local_datasource.dart';
+import 'package:flutter_base_template/app_dependency_injection.dart';
+import 'package:flutter_base_template/app_router.dart';
+import 'package:flutter_base_template/app_theme.dart';
 import 'app_settings.dart' as settings;
 import 'app_dependency_injection.dart' as dependency_injection;
-import 'package:mark_lxxxv/app_bloc_provider.dart' as bloc_provider;
+import 'package:flutter_base_template/app_bloc_provider.dart' as bloc_provider;
 
 Future<void> main() async {
   await settings.init();

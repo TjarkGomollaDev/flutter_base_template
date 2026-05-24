@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/entities/user_application_entity.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/interfaces_repositories/interface_user_repository.dart';
-import 'package:mark_lxxxv/core/success_messages/succes.dart';
-import 'package:mark_lxxxv/core/validators/input_auth_validators.dart';
+import 'package:flutter_base_template/3rd_layer_domain/entities/user_application_entity.dart';
+import 'package:flutter_base_template/3rd_layer_domain/interfaces_repositories/interface_user_repository.dart';
+import 'package:flutter_base_template/core/success_messages/succes.dart';
+import 'package:flutter_base_template/core/validators/input_auth_validators.dart';
 import 'package:meta/meta.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/interfaces_repositories/interface_auth_repository.dart';
+import 'package:flutter_base_template/3rd_layer_domain/interfaces_repositories/interface_auth_repository.dart';
 
 part 'sign_up_event.dart';
 part 'sign_up_state.dart';

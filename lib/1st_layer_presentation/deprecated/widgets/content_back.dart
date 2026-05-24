@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/interfaces_repositories/interface_auth_repository.dart';
-import 'package:mark_lxxxv/app_dependency_injection.dart';
+import 'package:flutter_base_template/3rd_layer_domain/interfaces_repositories/interface_auth_repository.dart';
+import 'package:flutter_base_template/app_dependency_injection.dart';
 
 class ContentBack extends StatelessWidget {
   const ContentBack({super.key});

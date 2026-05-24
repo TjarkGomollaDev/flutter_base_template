@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/interfaces_repositories/interface_auth_repository.dart';
+import 'package:flutter_base_template/3rd_layer_domain/interfaces_repositories/interface_auth_repository.dart';
 import 'package:meta/meta.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/entities/chat_entity.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/entities/user_contact_info_entity.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/interfaces_repositories/interface_chat_repository.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/interfaces_repositories/interface_user_repository.dart';
+import 'package:flutter_base_template/3rd_layer_domain/entities/chat_entity.dart';
+import 'package:flutter_base_template/3rd_layer_domain/entities/user_contact_info_entity.dart';
+import 'package:flutter_base_template/3rd_layer_domain/interfaces_repositories/interface_chat_repository.dart';
+import 'package:flutter_base_template/3rd_layer_domain/interfaces_repositories/interface_user_repository.dart';
 
 part 'chat_list_event.dart';
 part 'chat_list_state.dart';

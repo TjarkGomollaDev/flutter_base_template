@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/home/widgets/menu_chip.dart';
-import 'package:mark_lxxxv/app_constants.dart';
+import 'package:flutter_base_template/1st_layer_presentation/home/widgets/menu_chip.dart';
+import 'package:flutter_base_template/app_constants.dart';
 
 class MenuChipList extends StatelessWidget {
   static const List<String> chipsInfo = [

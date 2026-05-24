@@ -1,11 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mark_lxxxv/2nd_layer_application/auth/sign_up_bloc/sign_up_bloc.dart';
-import 'package:mark_lxxxv/app_constants.dart';
-import 'package:mark_lxxxv/core/extensions/build_context_extensions.dart';
-import 'package:mark_lxxxv/core/extensions/int_double_extensions.dart';
-import 'package:mark_lxxxv/core/extensions/theme_extensions.dart';
+import 'package:flutter_base_template/2nd_layer_application/auth/sign_up_bloc/sign_up_bloc.dart';
+import 'package:flutter_base_template/app_constants.dart';
+import 'package:flutter_base_template/core/extensions/build_context_extensions.dart';
+import 'package:flutter_base_template/core/extensions/int_double_extensions.dart';
+import 'package:flutter_base_template/core/extensions/theme_extensions.dart';
 
 class CheckboxThermsOfService extends StatefulWidget {
   const CheckboxThermsOfService({super.key});

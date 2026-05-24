@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/core_widgets.dart/core_loading_indicator.dart';
+import 'package:flutter_base_template/1st_layer_presentation/core_widgets.dart/core_loading_indicator.dart';
 
 class LoadingIndicatorCenter {
   static final _overlayEntry = OverlayEntry(

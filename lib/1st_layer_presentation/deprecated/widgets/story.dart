@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mark_lxxxv/app_constants.dart';
+import 'package:flutter_base_template/app_constants.dart';
 
 class Story extends StatelessWidget {
   final int index;

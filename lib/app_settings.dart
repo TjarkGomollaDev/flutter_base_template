@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mark_lxxxv/firebase_options.dart';
+import 'package:flutter_base_template/firebase_options.dart';
 
 Future<void> init() async {
   SystemChrome.setSystemUIOverlayStyle(

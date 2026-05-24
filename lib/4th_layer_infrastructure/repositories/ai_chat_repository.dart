@@ -1,12 +1,12 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/entities/ai_chat_entity.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/entities/ai_message_entity.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/interfaces_repositories/interface_ai_chat_repository.dart';
-import 'package:mark_lxxxv/4th_layer_infrastructure/models/ai_chat_model.dart';
-import 'package:mark_lxxxv/4th_layer_infrastructure/models/ai_message_model.dart';
-import 'package:mark_lxxxv/core/errors/ai_chat_errors.dart';
+import 'package:flutter_base_template/3rd_layer_domain/entities/ai_chat_entity.dart';
+import 'package:flutter_base_template/3rd_layer_domain/entities/ai_message_entity.dart';
+import 'package:flutter_base_template/3rd_layer_domain/interfaces_repositories/interface_ai_chat_repository.dart';
+import 'package:flutter_base_template/4th_layer_infrastructure/models/ai_chat_model.dart';
+import 'package:flutter_base_template/4th_layer_infrastructure/models/ai_message_model.dart';
+import 'package:flutter_base_template/core/errors/ai_chat_errors.dart';
 
 class AiChatRepository implements InterfaceAiChatRepository {
   static const String _COLLECTION_AI_CHATS = 'aiChats';

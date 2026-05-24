@@ -2,11 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/chat/chat_screen/widgets/message_input_field.dart';
-import 'package:mark_lxxxv/2nd_layer_application/application/chat_bloc/chat_bloc.dart';
-import 'package:mark_lxxxv/app_constants.dart';
-import 'package:mark_lxxxv/app_theme.dart';
-import 'package:mark_lxxxv/core/extensions/int_double_extensions.dart';
+import 'package:flutter_base_template/1st_layer_presentation/chat/chat_screen/widgets/message_input_field.dart';
+import 'package:flutter_base_template/2nd_layer_application/application/chat_bloc/chat_bloc.dart';
+import 'package:flutter_base_template/app_constants.dart';
+import 'package:flutter_base_template/app_theme.dart';
+import 'package:flutter_base_template/core/extensions/int_double_extensions.dart';
 
 class ChatTypingArea extends StatelessWidget {
   const ChatTypingArea({

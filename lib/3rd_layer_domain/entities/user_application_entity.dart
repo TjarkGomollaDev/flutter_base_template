@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:mark_lxxxv/core/generators/generators.dart';
+import 'package:flutter_base_template/core/generators/generators.dart';
 
 class UserApplicationEntity {
   final String userID;

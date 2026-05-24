@@ -1,5 +1,5 @@
-import 'package:mark_lxxxv/3rd_layer_domain/entities/user_application_entity.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/entities/user_contact_info_entity.dart';
+import 'package:flutter_base_template/3rd_layer_domain/entities/user_application_entity.dart';
+import 'package:flutter_base_template/3rd_layer_domain/entities/user_contact_info_entity.dart';
 
 abstract class InterfaceUserRepository {
   Future<bool> isUserDocumentExisting({required String userID});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/home/widgets/chat_tile.dart';
-import 'package:mark_lxxxv/app_constants.dart';
+import 'package:flutter_base_template/1st_layer_presentation/home/widgets/chat_tile.dart';
+import 'package:flutter_base_template/app_constants.dart';
 
 class FavoritesChatsList extends StatelessWidget {
   const FavoritesChatsList({super.key});

@@ -2,12 +2,12 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/entities/user_application_entity.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/entities/user_contact_info_entity.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/interfaces_repositories/interface_user_repository.dart';
-import 'package:mark_lxxxv/4th_layer_infrastructure/models/user_application_model.dart';
-import 'package:mark_lxxxv/4th_layer_infrastructure/models/user_contact_info_model.dart';
-import 'package:mark_lxxxv/core/errors/user_errors.dart';
+import 'package:flutter_base_template/3rd_layer_domain/entities/user_application_entity.dart';
+import 'package:flutter_base_template/3rd_layer_domain/entities/user_contact_info_entity.dart';
+import 'package:flutter_base_template/3rd_layer_domain/interfaces_repositories/interface_user_repository.dart';
+import 'package:flutter_base_template/4th_layer_infrastructure/models/user_application_model.dart';
+import 'package:flutter_base_template/4th_layer_infrastructure/models/user_contact_info_model.dart';
+import 'package:flutter_base_template/core/errors/user_errors.dart';
 
 class UserRepository implements InterfaceUserRepository {
   static const String _COLLECTION_USERS = 'users';

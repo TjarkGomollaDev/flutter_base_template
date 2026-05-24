@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/chat/chat_screen/widgets/message_card.dart';
-import 'package:mark_lxxxv/2nd_layer_application/application/chat_bloc/chat_bloc.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/entities/message_entity.dart';
+import 'package:flutter_base_template/1st_layer_presentation/chat/chat_screen/widgets/message_card.dart';
+import 'package:flutter_base_template/2nd_layer_application/application/chat_bloc/chat_bloc.dart';
+import 'package:flutter_base_template/3rd_layer_domain/entities/message_entity.dart';
 
 class ChatBody extends StatefulWidget {
   const ChatBody({super.key});

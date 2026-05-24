@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/interfaces_repositories/interface_storage_repository.dart';
-import 'package:mark_lxxxv/core/errors/storage_errors.dart';
+import 'package:flutter_base_template/3rd_layer_domain/interfaces_repositories/interface_storage_repository.dart';
+import 'package:flutter_base_template/core/errors/storage_errors.dart';
 
 class StorageRepository implements InterfaceStorageRepository {
   final FirebaseStorage _storage;

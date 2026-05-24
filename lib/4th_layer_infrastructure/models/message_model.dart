@@ -1,5 +1,5 @@
-import 'package:mark_lxxxv/3rd_layer_domain/entities/message_entity.dart';
-import 'package:mark_lxxxv/core/enums/message_type.dart';
+import 'package:flutter_base_template/3rd_layer_domain/entities/message_entity.dart';
+import 'package:flutter_base_template/core/enums/message_type.dart';
 
 class MessageModel {
   final String message;

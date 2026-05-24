@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/chat/chat_screen/widgets/body.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/chat/chat_screen/widgets/chat_app_bar.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/chat/chat_screen/widgets/chat_typing_area.dart';
+import 'package:flutter_base_template/1st_layer_presentation/chat/chat_screen/widgets/body.dart';
+import 'package:flutter_base_template/1st_layer_presentation/chat/chat_screen/widgets/chat_app_bar.dart';
+import 'package:flutter_base_template/1st_layer_presentation/chat/chat_screen/widgets/chat_typing_area.dart';
 
 class ChatPage extends StatelessWidget {
   const ChatPage({super.key});

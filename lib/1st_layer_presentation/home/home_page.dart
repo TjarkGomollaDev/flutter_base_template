@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/core_widgets.dart/core_overlay_wrapper.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/home/widgets/home_app_bar.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/home/widgets/home_nav_bar.dart';
+import 'package:flutter_base_template/1st_layer_presentation/core_widgets.dart/core_overlay_wrapper.dart';
+import 'package:flutter_base_template/1st_layer_presentation/home/widgets/home_app_bar.dart';
+import 'package:flutter_base_template/1st_layer_presentation/home/widgets/home_nav_bar.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mark_lxxxv/core/extensions/theme_extensions.dart';
+import 'package:flutter_base_template/core/extensions/theme_extensions.dart';
 
 extension BuildContextExtensions on BuildContext {
   ThemeData get theme => Theme.of(this);

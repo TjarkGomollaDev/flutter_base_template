@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mark_lxxxv/app_constants.dart';
-import 'package:mark_lxxxv/core/extensions/build_context_extensions.dart';
-import 'package:mark_lxxxv/core/extensions/int_double_extensions.dart';
-import 'package:mark_lxxxv/core/extensions/theme_extensions.dart';
+import 'package:flutter_base_template/app_constants.dart';
+import 'package:flutter_base_template/core/extensions/build_context_extensions.dart';
+import 'package:flutter_base_template/core/extensions/int_double_extensions.dart';
+import 'package:flutter_base_template/core/extensions/theme_extensions.dart';
 
 class CoreSettingsTileSwitch extends StatelessWidget {
   final String name;

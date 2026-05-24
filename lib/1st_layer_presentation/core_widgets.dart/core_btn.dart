@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mark_lxxxv/app_constants.dart';
-import 'package:mark_lxxxv/core/extensions/build_context_extensions.dart';
-import 'package:mark_lxxxv/core/extensions/theme_extensions.dart';
+import 'package:flutter_base_template/app_constants.dart';
+import 'package:flutter_base_template/core/extensions/build_context_extensions.dart';
+import 'package:flutter_base_template/core/extensions/theme_extensions.dart';
 
 class CoreBtn extends StatelessWidget {
   final String name;

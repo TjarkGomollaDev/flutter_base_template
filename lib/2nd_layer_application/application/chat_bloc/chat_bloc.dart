@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/entities/message_entity.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/interfaces_repositories/interface_chat_repository.dart';
-import 'package:mark_lxxxv/core/datatypes/doubly_linked_list.dart';
-import 'package:mark_lxxxv/core/enums/message_type.dart';
-import 'package:mark_lxxxv/core/validators/input_auth_validators.dart';
+import 'package:flutter_base_template/3rd_layer_domain/entities/message_entity.dart';
+import 'package:flutter_base_template/3rd_layer_domain/interfaces_repositories/interface_chat_repository.dart';
+import 'package:flutter_base_template/core/datatypes/doubly_linked_list.dart';
+import 'package:flutter_base_template/core/enums/message_type.dart';
+import 'package:flutter_base_template/core/validators/input_auth_validators.dart';
 import 'dart:async';
 
 part 'chat_event.dart';

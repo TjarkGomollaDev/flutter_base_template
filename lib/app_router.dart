@@ -1,13 +1,13 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/application_scaffold/application_scaffold_page.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/chat/chat_screen/chat_page.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/error_screen/error_page.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/landing/landing_page.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/splash/splash_page.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/onboarding/onboarding_page.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/interfaces_local_datasources/interface_app_settings_local_datasource.dart';
+import 'package:flutter_base_template/1st_layer_presentation/application_scaffold/application_scaffold_page.dart';
+import 'package:flutter_base_template/1st_layer_presentation/chat/chat_screen/chat_page.dart';
+import 'package:flutter_base_template/1st_layer_presentation/error_screen/error_page.dart';
+import 'package:flutter_base_template/1st_layer_presentation/landing/landing_page.dart';
+import 'package:flutter_base_template/1st_layer_presentation/splash/splash_page.dart';
+import 'package:flutter_base_template/1st_layer_presentation/onboarding/onboarding_page.dart';
+import 'package:flutter_base_template/3rd_layer_domain/interfaces_local_datasources/interface_app_settings_local_datasource.dart';
 
 abstract class RouteNames {
   static const SPLASH = '/splash';

@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/interfaces_repositories/interface_auth_repository.dart';
-import 'package:mark_lxxxv/4th_layer_infrastructure/models/auth_third_party_model.dart';
-import 'package:mark_lxxxv/4th_layer_infrastructure/models/auth_user_model.dart';
-import 'package:mark_lxxxv/core/errors/auth_errors.dart';
-import 'package:mark_lxxxv/core/errors/common_errors.dart';
-import 'package:mark_lxxxv/core/extensions/firebase_extensions.dart';
+import 'package:flutter_base_template/3rd_layer_domain/interfaces_repositories/interface_auth_repository.dart';
+import 'package:flutter_base_template/4th_layer_infrastructure/models/auth_third_party_model.dart';
+import 'package:flutter_base_template/4th_layer_infrastructure/models/auth_user_model.dart';
+import 'package:flutter_base_template/core/errors/auth_errors.dart';
+import 'package:flutter_base_template/core/errors/common_errors.dart';
+import 'package:flutter_base_template/core/extensions/firebase_extensions.dart';
 
 class AuthRepository implements InterfaceAuthRepository {
   final FirebaseAuth _firebaseAuth;

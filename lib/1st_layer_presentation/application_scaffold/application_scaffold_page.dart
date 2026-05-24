@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/ai_chat/ai_chat_page.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/chat/chat_list/chat_list_page.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/error_screen/error_page.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/home/home_page.dart';
-import 'package:mark_lxxxv/2nd_layer_application/application/application_bloc/application_bloc.dart';
-import 'package:mark_lxxxv/2nd_layer_application/application/search_bloc/search_bloc.dart';
-import 'package:mark_lxxxv/2nd_layer_application/auth/auth_bloc/auth_bloc.dart';
-import 'package:mark_lxxxv/main.dart';
+import 'package:flutter_base_template/1st_layer_presentation/ai_chat/ai_chat_page.dart';
+import 'package:flutter_base_template/1st_layer_presentation/chat/chat_list/chat_list_page.dart';
+import 'package:flutter_base_template/1st_layer_presentation/error_screen/error_page.dart';
+import 'package:flutter_base_template/1st_layer_presentation/home/home_page.dart';
+import 'package:flutter_base_template/2nd_layer_application/application/application_bloc/application_bloc.dart';
+import 'package:flutter_base_template/2nd_layer_application/application/search_bloc/search_bloc.dart';
+import 'package:flutter_base_template/2nd_layer_application/auth/auth_bloc/auth_bloc.dart';
+import 'package:flutter_base_template/main.dart';
 
 class ApplicationPage extends StatelessWidget {
   const ApplicationPage({super.key});

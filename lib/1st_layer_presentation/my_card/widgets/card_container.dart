@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/my_card/widgets/my_card.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/my_card/widgets/my_card_content_back.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/my_card/widgets/my_card_content_front.dart';
+import 'package:flutter_base_template/1st_layer_presentation/my_card/widgets/my_card.dart';
+import 'package:flutter_base_template/1st_layer_presentation/my_card/widgets/my_card_content_back.dart';
+import 'package:flutter_base_template/1st_layer_presentation/my_card/widgets/my_card_content_front.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
 class CardContainer extends StatefulWidget {

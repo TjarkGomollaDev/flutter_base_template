@@ -1,7 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/core_widgets.dart/core_formatted_chat_text.dart';
+import 'package:flutter_base_template/1st_layer_presentation/core_widgets.dart/core_formatted_chat_text.dart';
 
 class CoreTypewriterText extends StatefulWidget {
   final String text;

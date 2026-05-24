@@ -1,4 +1,4 @@
-import 'package:mark_lxxxv/3rd_layer_domain/entities/ai_message_entity.dart';
+import 'package:flutter_base_template/3rd_layer_domain/entities/ai_message_entity.dart';
 
 class AiMessageModel {
   final String message;

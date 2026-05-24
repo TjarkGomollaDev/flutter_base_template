@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/interfaces_repositories/interface_auth_repository.dart';
-import 'package:mark_lxxxv/4th_layer_infrastructure/models/auth_user_model.dart';
+import 'package:flutter_base_template/3rd_layer_domain/interfaces_repositories/interface_auth_repository.dart';
+import 'package:flutter_base_template/4th_layer_infrastructure/models/auth_user_model.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';

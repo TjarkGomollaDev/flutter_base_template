@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/core_widgets.dart/core_label_btn.dart';
-import 'package:mark_lxxxv/2nd_layer_application/onboarding/onboarding_bloc/onboarding_bloc.dart';
-import 'package:mark_lxxxv/app_constants.dart';
-import 'package:mark_lxxxv/app_router.dart';
-import 'package:mark_lxxxv/core/extensions/build_context_extensions.dart';
-import 'package:mark_lxxxv/core/extensions/int_double_extensions.dart';
-import 'package:mark_lxxxv/core/extensions/theme_extensions.dart';
+import 'package:flutter_base_template/1st_layer_presentation/core_widgets.dart/core_label_btn.dart';
+import 'package:flutter_base_template/2nd_layer_application/onboarding/onboarding_bloc/onboarding_bloc.dart';
+import 'package:flutter_base_template/app_constants.dart';
+import 'package:flutter_base_template/app_router.dart';
+import 'package:flutter_base_template/core/extensions/build_context_extensions.dart';
+import 'package:flutter_base_template/core/extensions/int_double_extensions.dart';
+import 'package:flutter_base_template/core/extensions/theme_extensions.dart';
 
 class OnboardingHeading extends StatelessWidget {
   const OnboardingHeading({super.key});

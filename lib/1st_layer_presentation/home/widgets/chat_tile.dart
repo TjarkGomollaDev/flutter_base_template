@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mark_lxxxv/app_constants.dart';
-import 'package:mark_lxxxv/app_theme.dart';
-import 'package:mark_lxxxv/core/extensions/int_double_extensions.dart';
+import 'package:flutter_base_template/app_constants.dart';
+import 'package:flutter_base_template/app_theme.dart';
+import 'package:flutter_base_template/core/extensions/int_double_extensions.dart';
 
 class ChatTile extends StatelessWidget {
   const ChatTile({super.key});

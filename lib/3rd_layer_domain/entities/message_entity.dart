@@ -1,6 +1,6 @@
 import 'package:uuid/uuid.dart';
 
-import 'package:mark_lxxxv/core/enums/message_type.dart';
+import 'package:flutter_base_template/core/enums/message_type.dart';
 
 class MessageEntity {
   final String message;

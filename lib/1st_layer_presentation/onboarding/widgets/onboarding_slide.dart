@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/onboarding/widgets/onboarding_data.dart';
-import 'package:mark_lxxxv/app_constants.dart';
-import 'package:mark_lxxxv/app_theme.dart';
-import 'package:mark_lxxxv/core/extensions/build_context_extensions.dart';
-import 'package:mark_lxxxv/core/extensions/int_double_extensions.dart';
+import 'package:flutter_base_template/1st_layer_presentation/onboarding/widgets/onboarding_data.dart';
+import 'package:flutter_base_template/app_constants.dart';
+import 'package:flutter_base_template/app_theme.dart';
+import 'package:flutter_base_template/core/extensions/build_context_extensions.dart';
+import 'package:flutter_base_template/core/extensions/int_double_extensions.dart';
 
 enum SlideIndex { firstSlide, secondSlide, thirdSlide }
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mark_lxxxv/1st_layer_presentation/home/widgets/menu_slider.dart';
+import 'package:flutter_base_template/1st_layer_presentation/home/widgets/menu_slider.dart';
 
 class MenuSliderList extends StatelessWidget {
   const MenuSliderList({super.key});

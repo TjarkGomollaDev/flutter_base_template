@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mark_lxxxv/core/success_messages/succes.dart';
-import 'package:mark_lxxxv/core/validators/input_auth_validators.dart';
+import 'package:flutter_base_template/core/success_messages/succes.dart';
+import 'package:flutter_base_template/core/validators/input_auth_validators.dart';
 import 'package:meta/meta.dart';
-import 'package:mark_lxxxv/3rd_layer_domain/interfaces_repositories/interface_auth_repository.dart';
+import 'package:flutter_base_template/3rd_layer_domain/interfaces_repositories/interface_auth_repository.dart';
 
 part 'reset_password_event.dart';
 part 'reset_password_state.dart';

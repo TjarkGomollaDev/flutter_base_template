@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mark_lxxxv/4th_layer_infrastructure/models/auth_user_model.dart';
+import 'package:flutter_base_template/4th_layer_infrastructure/models/auth_user_model.dart';
 
 extension FirebaseUserMapper on User {
   AuthUserModel get toUserModel {
