@@ -1,0 +1,13 @@
+{
+  "@@locale": "de",
+  "home": "Startseite",
+  "page2": "Seite 2",
+  "page3": "Seite 3",
+  "page4": "Seite 4",
+  "placeholderHome": "Startseite Platzhalter",
+  "placeholderPage2": "Seite 2 Platzhalter",
+  "placeholderPage3": "Seite 3 Platzhalter",
+  "placeholderPage4": "Seite 4 Platzhalter",
+  "errorScreen": "Es tut uns leid, diese Seite existiert nicht oder ein Fehler ist aufgetreten.\nBitte starte die App neu.",
+  "errorUnknow": "Unbekanntes Problem. Bitte versuche es erneut oder wende dich an unseren Support."
+}

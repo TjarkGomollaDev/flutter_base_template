@@ -1,10 +1,14 @@
 import 'package:flutter_base_template/3rd_layer_domain/entities/example_item_entity.dart';
 
-class ExampleItemModel extends ExampleItemEntity {
+class ExampleItemModel {
+  final String id;
+  final String title;
+  final String description;
+
   const ExampleItemModel({
-    required super.id,
-    required super.title,
-    required super.description,
+    required this.id,
+    required this.title,
+    required this.description,
   });
 
   factory ExampleItemModel.fromJson(Map<String, dynamic> json) {
@@ -21,5 +25,21 @@ class ExampleItemModel extends ExampleItemEntity {
       'title': title,
       'description': description,
     };
+  }
+
+  ExampleItemEntity toDomain() {
+    return ExampleItemEntity(
+      id: id,
+      title: title,
+      description: description,
+    );
+  }
+
+  factory ExampleItemModel.fromDomain(ExampleItemEntity entity) {
+    return ExampleItemModel(
+      id: entity.id,
+      title: entity.title,
+      description: entity.description,
+    );
   }
 }

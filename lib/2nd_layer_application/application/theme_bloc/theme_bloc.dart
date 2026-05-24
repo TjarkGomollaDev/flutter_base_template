@@ -10,11 +10,17 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
 
   ThemeBloc({required InterfaceAppSettingsLocalDatasource appSettingsLocalDatasource})
       : _appSettingsLocalDatasource = appSettingsLocalDatasource,
-        super(ThemeState._(
-            useSystemTheme: appSettingsLocalDatasource.getUseSystemTheme(),
-            themeMode: appSettingsLocalDatasource.getThemeMode())) {
+        super(ThemeState._(useSystemTheme: true, themeMode: true)) {
+    on<ThemeEventLoadSettings>(_onLoadSettings);
     on<ThemeEventChangeUseSystemTheme>(_onChangeUseSystemTheme);
     on<ThemeEventChangeThemeMode>(_onChangeThemeMode);
+    add(ThemeEventLoadSettings());
+  }
+
+  void _onLoadSettings(ThemeEventLoadSettings event, Emitter<ThemeState> emit) async {
+    final useSystemTheme = await _appSettingsLocalDatasource.getUseSystemTheme();
+    final themeMode = await _appSettingsLocalDatasource.getThemeMode();
+    emit(state.copyWith(useSystemTheme: useSystemTheme, themeMode: themeMode));
   }
 
   void _onChangeUseSystemTheme(ThemeEventChangeUseSystemTheme event, Emitter<ThemeState> emit) {

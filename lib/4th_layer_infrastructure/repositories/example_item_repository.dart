@@ -8,8 +8,8 @@ class ExampleItemRepository implements InterfaceExampleItemRepository {
     // Simulate a network delay
     await Future.delayed(const Duration(seconds: 1));
     return [
-      const ExampleItemModel(id: '1', title: 'Item 1', description: 'Description 1'),
-      const ExampleItemModel(id: '2', title: 'Item 2', description: 'Description 2'),
+      const ExampleItemModel(id: '1', title: 'Item 1', description: 'Description 1').toDomain(),
+      const ExampleItemModel(id: '2', title: 'Item 2', description: 'Description 2').toDomain(),
     ];
   }
 
@@ -17,6 +17,6 @@ class ExampleItemRepository implements InterfaceExampleItemRepository {
   Future<ExampleItemEntity> getItemById(String id) async {
     // Simulate a network delay
     await Future.delayed(const Duration(seconds: 1));
-    return ExampleItemModel(id: id, title: 'Item $id', description: 'Description $id');
+    return ExampleItemModel(id: id, title: 'Item $id', description: 'Description $id').toDomain();
   }
 }

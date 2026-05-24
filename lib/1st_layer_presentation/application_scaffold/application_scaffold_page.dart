@@ -1,45 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_base_template/1st_layer_presentation/home/home_page.dart';
-import 'package:flutter_base_template/1st_layer_presentation/page_2/page_2.dart';
-import 'package:flutter_base_template/1st_layer_presentation/page_3/page_3.dart';
-import 'package:flutter_base_template/1st_layer_presentation/page_4/page_4.dart';
-import 'package:flutter_base_template/2nd_layer_application/application/application_bloc/application_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:flutter_base_template/core/extensions/theme_extensions.dart';
+import 'package:flutter_base_template/l10n/app_localizations.dart';
 
 class ApplicationPage extends StatelessWidget {
-  const ApplicationPage({super.key});
+  const ApplicationPage({
+    super.key,
+    required this.navigationShell,
+  });
+
+  final StatefulNavigationShell navigationShell;
+
+  void _onTap(BuildContext context, int index) {
+    navigationShell.goBranch(
+      index,
+      initialLocation: index == navigationShell.currentIndex,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ApplicationBloc, ApplicationState>(
-      buildWhen: (previous, current) => previous.index != current.index,
-      builder: (context, state) {
-        // scaffold of the application
-        return Scaffold(
-          body: IndexedStack(
-            index: state.index,
-            // sub pages of the application
-            children: const [
-              HomePage(),
-              Page2(),
-              Page3(),
-              Page4(),
-            ],
-          ),
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: state.index,
-            onTap: (index) {
-              context.read<ApplicationBloc>().add(ApplicationEventChangePageIndex(index: index));
-            },
-            items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-              BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Page 2'),
-              BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Page 3'),
-              BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Page 4'),
-            ],
-          ),
-        );
-      },
+    final colorPalette = Theme.of(context).colorPalette;
+    final l10n = AppLocalizations.of(context)!;
+
+    return Scaffold(
+      body: navigationShell,
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: colorPalette.primary,
+        selectedItemColor: colorPalette.blue,
+        unselectedItemColor: colorPalette.gray1,
+        currentIndex: navigationShell.currentIndex,
+        onTap: (int index) => _onTap(context, index),
+        items: [
+          BottomNavigationBarItem(icon: const Icon(Icons.home), label: l10n.home),
+          BottomNavigationBarItem(icon: const Icon(Icons.search), label: l10n.page2),
+          BottomNavigationBarItem(icon: const Icon(Icons.favorite), label: l10n.page3),
+          BottomNavigationBarItem(icon: const Icon(Icons.person), label: l10n.page4),
+        ],
+      ),
     );
   }
 }

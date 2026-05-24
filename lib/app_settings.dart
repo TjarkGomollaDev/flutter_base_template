@@ -1,7 +1,5 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_base_template/firebase_options.dart';
 
 Future<void> init() async {
   SystemChrome.setSystemUIOverlayStyle(
@@ -13,7 +11,4 @@ Future<void> init() async {
   );
 
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
 }

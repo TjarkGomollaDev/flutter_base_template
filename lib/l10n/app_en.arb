@@ -1,0 +1,13 @@
+{
+  "@@locale": "en",
+  "home": "Home",
+  "page2": "Page 2",
+  "page3": "Page 3",
+  "page4": "Page 4",
+  "placeholderHome": "Placeholder Home Page",
+  "placeholderPage2": "Placeholder Page 2",
+  "placeholderPage3": "Placeholder Page 3",
+  "placeholderPage4": "Placeholder Page 4",
+  "errorScreen": "We are sorry, this page doesn't exist or an error happened.\nPlease restart the app.",
+  "errorUnknow": "Unknown issue. Please retry or reach out to our support."
+}
