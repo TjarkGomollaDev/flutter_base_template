@@ -4,7 +4,6 @@ import 'package:flutter_base_template/2nd_layer_application/application/theme_bl
 import 'package:flutter_base_template/app_dependency_injection.dart';
 import 'package:flutter_base_template/app_router.dart';
 import 'package:flutter_base_template/app_theme.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_base_template/l10n/app_localizations.dart';
 import 'app_settings.dart' as settings;
 import 'app_dependency_injection.dart' as dependency_injection;
@@ -26,22 +25,13 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {
           return MaterialApp.router(
-            title: 'Clean Architecture Template',
             debugShowCheckedModeBanner: false,
             theme: AppTheme.appThemeLight,
             darkTheme: AppTheme.appThemeDark,
             themeMode: state.useSystemTheme ? ThemeMode.system : (state.themeMode ? ThemeMode.light : ThemeMode.dark),
             routerConfig: sl<AppRouter>().router,
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: const [
-              Locale('en', ''),
-              Locale('de', ''),
-            ],
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
           );
         },
       ),

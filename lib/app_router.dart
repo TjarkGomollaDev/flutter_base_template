@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_base_template/1st_layer_presentation/application_scaffold/application_scaffold_page.dart';
+import 'package:flutter_base_template/1st_layer_presentation/application_scaffold/application_scaffold.dart';
 import 'package:flutter_base_template/1st_layer_presentation/error_screen/error_page.dart';
 import 'package:flutter_base_template/1st_layer_presentation/home/home_page.dart';
 import 'package:flutter_base_template/1st_layer_presentation/page_2/page_2.dart';

@@ -11,7 +11,7 @@ class ErrorPage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Text(
-          l10n.errorDescription,
+          l10n.errorScreen,
           textAlign: TextAlign.center,
         ),
       ),

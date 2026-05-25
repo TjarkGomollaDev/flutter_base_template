@@ -146,17 +146,17 @@ abstract class AppLocalizations {
   /// **'Placeholder Page 4'**
   String get placeholderPage4;
 
-  /// No description provided for @errorOccurred.
-  ///
-  /// In en, this message translates to:
-  /// **'An error occurred'**
-  String get errorOccurred;
-
-  /// No description provided for @errorDescription.
+  /// No description provided for @errorScreen.
   ///
   /// In en, this message translates to:
   /// **'We are sorry, this page doesn\'t exist or an error happened.\nPlease restart the app.'**
-  String get errorDescription;
+  String get errorScreen;
+
+  /// No description provided for @errorUnknow.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown issue. Please retry or reach out to our support.'**
+  String get errorUnknow;
 }
 
 class _AppLocalizationsDelegate

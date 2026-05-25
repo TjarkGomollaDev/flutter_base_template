@@ -7,7 +7,7 @@ Dieses Projekt dient als strikte Vorlage (Template) für alle zukünftigen Flutt
 2. **BLoC (Business Logic Component):** Das einzige erlaubte State Management Pattern. Jegliche UI-Logik muss in BLoCs gekapselt werden. Struktur: `bloc_name_bloc.dart`, `bloc_name_event.dart`, `bloc_name_state.dart`. Aufbau analog zum `ThemeBloc` (Events und States als `part of` Datei, `on<Event>`-Registrierung im Constructor).
 3. **Dependency Injection:** Via `get_it`. Alles (BLoCs, Repositories, Datasources) muss in der `app_dependency_injection.dart` registriert und als Interface bereitgestellt werden.
 4. **Zentrale Konfiguration:** Theme, Constants, Router und DI sind zentral in `app_*.dart` Dateien auf Root-Ebene des `lib` Ordners definiert.
-5. **Kein Hardcoded Text:** Jeglicher UI-Text **muss** über das `l10n`-System (arb-Dateien) eingebunden werden (`AppLocalizations.of(context)!`).
+5. **Kein Hardcoded Text:** Jeglicher UI-Text **muss** über das `l10n`-System (arb-Dateien) eingebunden werden (`context.l10n`).
 6. **Routing:** Verwendung von `go_router` für ein modernes, deklaratives Routing-System.
 7. **Environment-Management:** API-URLs und Umgebungs-Konfigurationen liegen in `lib/app_environment.dart` (Root-Ebene).
 8. **Extensions:** Bestehende Extensions in `lib/core/extensions/` **müssen** verwendet werden, wenn möglich. Bei Bedarf sind diese durch neue, generische Extensions zu ergänzen.

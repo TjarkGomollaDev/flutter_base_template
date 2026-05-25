@@ -44,7 +44,6 @@ abstract class AppConstants {
   static const double PAGE_PADDING_HORIZONTAL = 20;
   static const double SAFE_AREA_MIN_PADDING_BTM = 10;
   static const double CURSOR_HEIGHT = 20;
-  static const double SWITCH_SCALE = 0.8;
 
   // blur
   static final ImageFilter BLUR_FILTER = ImageFilter.blur(

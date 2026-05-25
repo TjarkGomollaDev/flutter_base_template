@@ -33,9 +33,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get placeholderPage4 => 'Placeholder Page 4';
 
   @override
-  String get errorOccurred => 'An error occurred';
+  String get errorScreen =>
+      'We are sorry, this page doesn\'t exist or an error happened.\nPlease restart the app.';
 
   @override
-  String get errorDescription =>
-      'We are sorry, this page doesn\'t exist or an error happened.\nPlease restart the app.';
+  String get errorUnknow =>
+      'Unknown issue. Please retry or reach out to our support.';
 }
