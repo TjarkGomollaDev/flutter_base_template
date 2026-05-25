@@ -3,7 +3,6 @@
 import 'dart:ui';
 
 abstract class AppConstants {
-  // #### GENERAL CONSTANTS ####################################
   // radii for containers
   static const double RADIUS_XS = 4;
   static const double RADIUS_S = 8;
