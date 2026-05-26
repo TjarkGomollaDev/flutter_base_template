@@ -1,7 +1,7 @@
 part of 'theme_bloc.dart';
 
 @immutable
-class ThemeState {
+class ThemeState extends Equatable {
   final bool useSystemTheme;
   final bool themeMode;
 
@@ -19,4 +19,7 @@ class ThemeState {
       themeMode: themeMode ?? this.themeMode,
     );
   }
+
+  @override
+  List<Object?> get props => [useSystemTheme, themeMode];
 }

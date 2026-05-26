@@ -25,7 +25,8 @@ class CoreLabelBtn extends StatelessWidget {
       child: UnconstrainedBox(
         child: Container(
           height: AppConstants.LABEL_BTN_HEIGHT,
-          padding: const EdgeInsets.symmetric(horizontal: AppConstants.SPACE_HORIZONTAL_M),
+          padding: const EdgeInsets.symmetric(
+              horizontal: AppConstants.SPACE_HORIZONTAL_M),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppConstants.RADIUS_XL),
             color: color ?? themeData.colorPalette.gray6,
@@ -33,8 +34,8 @@ class CoreLabelBtn extends StatelessWidget {
           child: Center(
             child: Text(
               name,
-              style: themeData.textTheme.labelMedium!
-                  .copyWith(color: textColor ?? themeData.colorPalette.onPrimary),
+              style: themeData.textTheme.labelMedium!.copyWith(
+                  color: textColor ?? themeData.colorPalette.onPrimary),
             ),
           ),
         ),

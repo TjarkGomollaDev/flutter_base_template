@@ -33,10 +33,14 @@ class ApplicationPage extends StatelessWidget {
         currentIndex: navigationShell.currentIndex,
         onTap: (int index) => _onTap(context, index),
         items: [
-          BottomNavigationBarItem(icon: const Icon(Icons.home), label: l10n.home),
-          BottomNavigationBarItem(icon: const Icon(Icons.search), label: l10n.page2),
-          BottomNavigationBarItem(icon: const Icon(Icons.favorite), label: l10n.page3),
-          BottomNavigationBarItem(icon: const Icon(Icons.person), label: l10n.page4),
+          BottomNavigationBarItem(
+              icon: const Icon(Icons.home), label: l10n.home),
+          BottomNavigationBarItem(
+              icon: const Icon(Icons.search), label: l10n.page2),
+          BottomNavigationBarItem(
+              icon: const Icon(Icons.favorite), label: l10n.page3),
+          BottomNavigationBarItem(
+              icon: const Icon(Icons.person), label: l10n.page4),
         ],
       ),
     );

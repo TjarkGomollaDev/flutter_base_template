@@ -7,10 +7,13 @@ Dieses Projekt dient als strikte Vorlage (Template) für alle zukünftigen Flutt
 2. **BLoC (Business Logic Component):** Das einzige erlaubte State Management Pattern. Jegliche UI-Logik muss in BLoCs gekapselt werden. Struktur: `bloc_name_bloc.dart`, `bloc_name_event.dart`, `bloc_name_state.dart`. Aufbau analog zum `ThemeBloc` (Events und States als `part of` Datei, `on<Event>`-Registrierung im Constructor).
 3. **Dependency Injection:** Via `get_it`. Alles (BLoCs, Repositories, Datasources) muss in der `app_dependency_injection.dart` registriert und als Interface bereitgestellt werden.
 4. **Zentrale Konfiguration:** Theme, Constants, Router und DI sind zentral in `app_*.dart` Dateien auf Root-Ebene des `lib` Ordners definiert.
-5. **Kein Hardcoded Text:** Jeglicher UI-Text **muss** über das `l10n`-System (arb-Dateien) eingebunden werden (`context.l10n`).
+5. **Kein Hardcoded Text:** Jeglicher UI-Text **muss** über das `l10n`-System (arb-Dateien) eingebunden werden (`context.l10n`). Die App-Sprache wird über den `LocaleBloc` verwaltet.
 6. **Routing:** Verwendung von `go_router` für ein modernes, deklaratives Routing-System.
 7. **Environment-Management:** API-URLs und Umgebungs-Konfigurationen liegen in `lib/app_environment.dart` (Root-Ebene).
-8. **Extensions:** Bestehende Extensions in `lib/core/extensions/` **müssen** verwendet werden, wenn möglich. Bei Bedarf sind diese durch neue, generische Extensions zu ergänzen.
+8. **Logging & API:** Logging passiert App-weit über das `logger` Package (Singleton über DI verfügbar als `sl<Logger>()`). Der Logger soll nicht überall, sondern **nur an kritischen Knotenpunkten** (z.B. in `catch`-Blöcken von Repositories) eingesetzt werden. Für API-Traffic **muss zwingend** der injizierte `ApiClient` (`lib/core/network/api_client.dart`) verwendet werden. Niemals Standard `http` oder eigene `Dio` Instanzen verwenden! Der Client hat einen Interceptor, der Requests, Responses und Errors automatisch über den Logger ausgibt. Alle API-Fehler werden als `ApiException` geworfen.
+9. **Extensions:** Bestehende Extensions in `lib/core/extensions/` **müssen** verwendet werden, wenn möglich. Bei Bedarf sind diese durch neue, generische Extensions zu ergänzen.
+10. **Code Comments:** Alle Kommentare in der Codebase **müssen** auf Englisch verfasst sein und einen einheitlichen Stil verfolgen. Für Dokumentation von Klassen, Methoden und Eigenschaften sind `///` (Doc Comments) zu verwenden, für einfache Erklärungen im Code `//`.
+11. **Equatable:** Verwende das Package `equatable` für BLoC States/Events sowie für alle Entities und Models. Dies garantiert Wertegleichheit (Value Equality) ohne manuellen Boilerplate-Code und verhindert unnötige UI-Rebuilds.
 ---
 
 ## Die 4 Schichten (Layers)
@@ -48,6 +51,9 @@ Dieses Projekt dient als strikte Vorlage (Template) für alle zukünftigen Flutt
 *   **`app_router`**: Definition der `go_router` Konfiguration.
 *   **`app_enviroment`**: API-Urls und Umgebungs-Konfiguration.
 *   **`core/`**: Beinhaltet Extensions, Fehler-Klassen und Enums, die App-weit gültig sind.
+    *   `core/network/api_client.dart`: Zentraler API-Client basierend auf Dio. **Muss** zwingend für alle Netzwerk-Anfragen in den Remote-Datasources verwendet werden. Reicht Fehler als `ApiException` weiter.
+    *   `core/exceptions/api_exceptions.dart`: Vereinheitlichte Fehlerklasse für Netzwerk-/Serverfehler. Inklusive `ApiErrorType` Enum, um in der UI saubere Übersetzungen anzeigen zu können.
+*   **`app_bloc_observer.dart`**: Beobachtet und loggt automatisch alle BLoC Events und State-Changes via `logger`.
 *   **`l10n/`**:: Alle Übersetzungs-Dateien (`.arb`).
 
 ## Beispiel-Feature (`ExampleItem`)

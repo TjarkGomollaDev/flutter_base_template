@@ -9,10 +9,14 @@ import 'package:flutter_base_template/1st_layer_presentation/page_4/page_4.dart'
 
 // Global keys for navigation state
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
-final _sectionANavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'sectionANav');
-final _sectionBNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'sectionBNav');
-final _sectionCNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'sectionCNav');
-final _sectionDNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'sectionDNav');
+final _sectionANavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: 'sectionANav');
+final _sectionBNavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: 'sectionBNav');
+final _sectionCNavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: 'sectionCNav');
+final _sectionDNavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: 'sectionDNav');
 
 class AppRouter {
   final GoRouter router;
@@ -25,7 +29,8 @@ class AppRouter {
     errorBuilder: (context, state) => const ErrorPage(),
     routes: <RouteBase>[
       StatefulShellRoute.indexedStack(
-        builder: (BuildContext context, GoRouterState state, StatefulNavigationShell navigationShell) {
+        builder: (BuildContext context, GoRouterState state,
+            StatefulNavigationShell navigationShell) {
           return ApplicationPage(navigationShell: navigationShell);
         },
         branches: <StatefulShellBranch>[
@@ -35,7 +40,8 @@ class AppRouter {
             routes: <RouteBase>[
               GoRoute(
                 path: '/',
-                builder: (BuildContext context, GoRouterState state) => const HomePage(),
+                builder: (BuildContext context, GoRouterState state) =>
+                    const HomePage(),
               ),
             ],
           ),
@@ -45,7 +51,8 @@ class AppRouter {
             routes: <RouteBase>[
               GoRoute(
                 path: '/page_2',
-                builder: (BuildContext context, GoRouterState state) => const Page2(),
+                builder: (BuildContext context, GoRouterState state) =>
+                    const Page2(),
               ),
             ],
           ),
@@ -55,7 +62,8 @@ class AppRouter {
             routes: <RouteBase>[
               GoRoute(
                 path: '/page_3',
-                builder: (BuildContext context, GoRouterState state) => const Page3(),
+                builder: (BuildContext context, GoRouterState state) =>
+                    const Page3(),
               ),
             ],
           ),
@@ -65,7 +73,8 @@ class AppRouter {
             routes: <RouteBase>[
               GoRoute(
                 path: '/page_4',
-                builder: (BuildContext context, GoRouterState state) => const Page4(),
+                builder: (BuildContext context, GoRouterState state) =>
+                    const Page4(),
               ),
             ],
           ),

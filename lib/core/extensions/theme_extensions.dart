@@ -125,9 +125,12 @@ class ShadowPalette extends ThemeExtension<ShadowPalette> {
       return this;
     }
     return ShadowPalette(
-      containerShadow: BoxShadow.lerp(containerShadow, other.containerShadow, t)!,
-      primaryBtnShadow: BoxShadow.lerp(primaryBtnShadow, other.primaryBtnShadow, t)!,
-      onPrimaryBtnShadow: BoxShadow.lerp(onPrimaryBtnShadow, other.onPrimaryBtnShadow, t)!,
+      containerShadow:
+          BoxShadow.lerp(containerShadow, other.containerShadow, t)!,
+      primaryBtnShadow:
+          BoxShadow.lerp(primaryBtnShadow, other.primaryBtnShadow, t)!,
+      onPrimaryBtnShadow:
+          BoxShadow.lerp(onPrimaryBtnShadow, other.onPrimaryBtnShadow, t)!,
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter_base_template/3rd_layer_domain/entities/example_item_entity.dart';
+import 'package:equatable/equatable.dart';
 
-class ExampleItemModel {
+class ExampleItemModel extends Equatable {
   final String id;
   final String title;
   final String description;
@@ -42,4 +43,7 @@ class ExampleItemModel {
       description: entity.description,
     );
   }
+
+  @override
+  List<Object?> get props => [id, title, description];
 }

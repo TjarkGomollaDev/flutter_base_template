@@ -1,0 +1,29 @@
+# ==========================================
+# OPENCODE AI IGNORE RULES
+# ==========================================
+# This file prevents the AI from reading large, generated, or irrelevant files.
+# It saves tokens, speeds up responses, and prevents AI hallucinations.
+
+# 1. Build & Tooling (Critical to ignore)
+build/
+.dart_tool/
+.pub-cache/
+
+# 2. Generated Code (Even if checked into Git, the AI shouldn't read it)
+*.g.dart
+*.freezed.dart
+*.part.dart
+*.mocks.dart
+*.chopper.dart
+*.worker.dart
+
+# 3. Native Caches & Large Dependencies (Keep config files visible, but hide caches)
+ios/Pods/
+ios/.symlinks/
+android/.gradle/
+macos/Pods/
+
+# 4. IDEs & Local Settings
+.idea/
+.vscode/
+*.iml
