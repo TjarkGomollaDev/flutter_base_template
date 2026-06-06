@@ -42,10 +42,8 @@ Future<void> init() async {
   sl.registerLazySingleton(() => AppRouter());
 
   // #### LOCAL DATASOURCES ####################################
-  sl.registerLazySingleton<InterfaceAppSettingsLocalDatasource>(
-      () => AppSettingsLocalDatasource(sharedPreferencesAsync: sl()));
+  sl.registerLazySingleton<InterfaceAppSettingsLocalDatasource>(() => AppSettingsLocalDatasource(sharedPreferencesAsync: sl()));
 
   // #### REPOSITORIES #########################################
-  sl.registerLazySingleton<InterfaceExampleItemRepository>(
-      () => ExampleItemRepository(apiClient: sl(), logger: sl()));
+  sl.registerLazySingleton<InterfaceExampleItemRepository>(() => ExampleItemRepository(apiClient: sl(), logger: sl()));
 }

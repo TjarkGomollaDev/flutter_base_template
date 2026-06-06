@@ -1,6 +1,6 @@
 {
-    "name": "mark_lxxxv",
-    "short_name": "mark_lxxxv",
+    "name": "flutter_base_template",
+    "short_name": "flutter_base_template",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

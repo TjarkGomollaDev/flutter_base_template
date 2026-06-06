@@ -15,21 +15,18 @@ class AppBlocObserver extends BlocObserver {
   @override
   void onChange(BlocBase bloc, Change change) {
     super.onChange(bloc, change);
-    logger.t(
-        'BlocChange: ${bloc.runtimeType}\nCurrent: ${change.currentState}\nNext: ${change.nextState}');
+    logger.d('BlocChange: ${bloc.runtimeType}\nCurrent: ${change.currentState}\nNext: ${change.nextState}');
   }
 
   @override
   void onTransition(Bloc bloc, Transition transition) {
     super.onTransition(bloc, transition);
-    logger.d(
-        'BlocTransition: ${bloc.runtimeType} ${transition.event.runtimeType}');
+    logger.d('BlocTransition: ${bloc.runtimeType} ${transition.event.runtimeType}');
   }
 
   @override
   void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
     super.onError(bloc, error, stackTrace);
-    logger.e('BlocError: ${bloc.runtimeType}',
-        error: error, stackTrace: stackTrace);
+    logger.e('BlocError: ${bloc.runtimeType}', error: error, stackTrace: stackTrace);
   }
 }
