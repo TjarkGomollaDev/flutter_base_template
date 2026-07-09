@@ -8,6 +8,8 @@ class Page2 extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
+      // Test anchor: uniquely identifies page 2 in UI tests.
+      key: const Key('page_2_page'),
       appBar: AppBar(title: Text(l10n.page2)),
       body: Center(
         child: Text(l10n.placeholderPage2),

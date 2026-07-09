@@ -14,6 +14,7 @@ Dieses Projekt dient als strikte Vorlage (Template) für alle zukünftigen Flutt
 9. **Extensions:** Bestehende Extensions in `lib/core/extensions/` **müssen** verwendet werden, wenn möglich. Bei Bedarf sind diese durch neue, generische Extensions zu ergänzen.
 10. **Code Comments:** Alle Kommentare in der Codebase **müssen** auf Englisch verfasst sein und einen einheitlichen Stil verfolgen. Für Dokumentation von Klassen, Methoden und Eigenschaften sind `///` (Doc Comments) zu verwenden, für einfache Erklärungen im Code `//`.
 11. **Equatable:** Verwende das Package `equatable` für BLoC States/Events sowie für alle Entities und Models. Dies garantiert Wertegleichheit (Value Equality) ohne manuellen Boilerplate-Code und verhindert unnötige UI-Rebuilds.
+12. **UI-Test-Anker:** Interaktive Widgets ohne eindeutigen, stabilen Text-Anker (Icon-Buttons, Tab-Items, Felder, Listen-Items) bekommen einen `Key` nach Schema `Key('<screen>_<element>')` (z.B. `home_page`, `page_2_page`), damit UI-Tests sie sprachunabhängig finden können. Details siehe Abschnitt **UI-Testing**.
 ---
 
 ## Die 4 Schichten (Layers)
@@ -60,3 +61,11 @@ Dieses Projekt dient als strikte Vorlage (Template) für alle zukünftigen Flutt
 Im Template existiert ein Dummy-Feature `ExampleItem`, das exakt demonstriert, wie die Verbindung von 3. zu 4. Layer funktioniert:
 1.  **Domain:** `ExampleItemEntity` definiert die Properties. `InterfaceExampleItemRepository` definiert die Methoden.
 2.  **Infrastructure:** `ExampleItemModel` mit JSON-Parsing und falls gebraucht Domain-Parsing. `ExampleItemRepository` implements `InterfaceExampleItemRepository` und liefert Models zurück (die automatisch als Entities erkannt werden).
+
+## UI-Testing
+
+*   **Keys als Test-Anker:** Interaktive Widgets ohne eindeutigen, stabilen Text-Anker (Icon-Buttons, Tab-Items, Felder, Listen-Items) bekommen einen `Key` nach Schema `Key('<screen>_<element>')` (z.B. `home_page`, `page_2_page`).
+*   **Statischer Text braucht keinen Key:** Elemente mit sichtbarem, STATISCHEM Text werden im Test via `find.text(...)` gefunden. Lokalisierte Texte (`context.l10n`) sind als Finder NICHT zuverlässig (sprachabhängig) -> dort Keys setzen.
+*   **Barrierefreiheit vor totem Key:** Wo Barrierefreiheit sinnvoll ist, `Semantics(label:)` statt totem Key verwenden (doppelter Nutzen: Screenreader + `find.bySemanticsLabel`).
+*   **Kein Wildwuchs:** Keys nur setzen, wo der Test sonst nichts Eindeutiges hat.
+*   **Ort & Ausführung:** UI-Tests liegen in `integration_test/` (Beispiel: `integration_test/app_test.dart`), laufen echt auf dem Simulator via `flutter drive` und schreiben Screenshots nach `integration_test/screenshots/`. Ausführbar über den `/test-ui`-Skill.

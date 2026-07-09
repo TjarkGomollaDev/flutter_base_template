@@ -19,4 +19,14 @@ Ziel ist es, jedem neuen Projekt – insbesondere bei der Zusammenarbeit mit ein
 3. Dann der AI mitteilen: *"Setze mir den Plan aus PROMPT.md um."* In der **AGENTS.md** wird bereits auf **ARCHITECTURE.md** und **DESIGN.md** verwiesen. Die **ARCHITECTURE.md** kann falls gewünscht natürlich noch erweitert werden.
 4. Im weiteren Projekt-Verlauf sollten neue Feature-Prompts in seperate Dateien hinterlegt werden.
 
+## 🤖 Claude Code Skills
+
+Dieses Template bringt eigene, projekt-lokale **Claude Code Skills** mit
+(`.claude/skills/`), die mit dem Repo ausgeliefert werden. Sie werden **nur
+manuell** über ihren `/`-Befehl aufgerufen. Neue Skills bitte hier eintragen.
+
+| Skill | Aufruf | Zweck |
+| --- | --- | --- |
+| `test-ui` | `/test-ui [ios\|android\|both] [Fokus]` | Testet die App-UI echt auf iOS-Simulator und/oder Android-Emulator via `integration_test` + `flutter drive`, macht Screenshots und prüft sie visuell. Default: `ios`. |
+
 *Erstellt als saubere Basis für alle zukünftigen Entwicklungen.*

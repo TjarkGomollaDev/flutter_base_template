@@ -22,15 +22,19 @@ class ApiClient {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
-          logger.d('API Request: ${options.method} ${options.uri}\nData: ${options.data}');
+          logger.d(
+              'API Request: ${options.method} ${options.uri}\nData: ${options.data}');
           return handler.next(options);
         },
         onResponse: (response, handler) {
-          logger.d('API Response: ${response.statusCode} ${response.requestOptions.uri}\nData: ${response.data}');
+          logger.d(
+              'API Response: ${response.statusCode} ${response.requestOptions.uri}\nData: ${response.data}');
           return handler.next(response);
         },
         onError: (DioException e, handler) {
-          logger.e('API Error: ${e.message}\nUri: ${e.requestOptions.uri}\nResponse: ${e.response?.data}', error: e);
+          logger.e(
+              'API Error: ${e.message}\nUri: ${e.requestOptions.uri}\nResponse: ${e.response?.data}',
+              error: e);
           return handler.next(e);
         },
       ),

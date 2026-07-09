@@ -34,6 +34,12 @@ migrate_working_dir/
 .pub/
 /build/
 
+# Claude Code per-developer local settings (not shipped with the template)
+.claude/settings.local.json
+
+# UI test artifacts (screenshots captured by the /test-ui skill / flutter drive)
+/integration_test/screenshots/
+
 # Symbolication related
 app.*.symbols
 

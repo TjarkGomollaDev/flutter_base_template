@@ -29,6 +29,11 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  integration_test:
+    sdk: flutter
+  # Provides the in-memory SharedPreferencesAsync platform used to mock
+  # persistence in host-VM widget tests (see test/widget_test.dart).
+  shared_preferences_platform_interface: ^2.4.0
   flutter_lints: ^6.0.0
 
 flutter:

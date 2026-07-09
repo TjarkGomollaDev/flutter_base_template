@@ -8,6 +8,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
+      // Test anchor: uniquely identifies the home page in UI tests.
+      key: const Key('home_page'),
       appBar: AppBar(
         title: Text(l10n.home),
       ),
