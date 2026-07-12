@@ -117,9 +117,7 @@ abstract class AppTheme {
 
   // Shadow Palette -> Dark
   static final _shadowPaletteDark = ShadowPalette(
-      containerShadow: _containerShadowDark,
-      primaryBtnShadow: _primaryBtnShadowDark,
-      onPrimaryBtnShadow: _onPrimaryBtnShadowDark);
+      containerShadow: _containerShadowDark, primaryBtnShadow: _primaryBtnShadowDark, onPrimaryBtnShadow: _onPrimaryBtnShadowDark);
 
   // #### ALL TEXT STYLES ######################################
   // Text Styles -> LIGHT
@@ -214,32 +212,23 @@ abstract class AppTheme {
 
   // Text Styles -> DARK
   // display
-  static final _displayLargeTextDark =
-      _displayLargeTextLight.copyWith(color: white);
-  static final _displayMediumTextDark =
-      _displayMediumTextLight.copyWith(color: white);
-  static final _displaySmallTextDark =
-      _displaySmallTextLight.copyWith(color: white);
+  static final _displayLargeTextDark = _displayLargeTextLight.copyWith(color: white);
+  static final _displayMediumTextDark = _displayMediumTextLight.copyWith(color: white);
+  static final _displaySmallTextDark = _displaySmallTextLight.copyWith(color: white);
 
   // title
-  static final _titleLargeTextDark =
-      _titleLargeTextLight.copyWith(color: white);
-  static final _titleMediumTextDark =
-      _titleMediumTextLight.copyWith(color: white);
-  static final _titleSmallTextDark =
-      _titleSmallTextLight.copyWith(color: white);
+  static final _titleLargeTextDark = _titleLargeTextLight.copyWith(color: white);
+  static final _titleMediumTextDark = _titleMediumTextLight.copyWith(color: white);
+  static final _titleSmallTextDark = _titleSmallTextLight.copyWith(color: white);
 
   // body
   static final _bodyLargeTextDark = _bodyLargeTextLight.copyWith(color: white);
-  static final _bodyMediumTextDark =
-      _bodyMediumTextLight.copyWith(color: white);
+  static final _bodyMediumTextDark = _bodyMediumTextLight.copyWith(color: white);
   static final _bodySmallTextDark = _bodySmallTextLight.copyWith(color: white);
 
   // label
-  static final _labelLargeTextDark =
-      _labelLargeTextLight.copyWith(color: white);
-  static final _labelMediumTextDark =
-      _labelMediumTextLight.copyWith(color: white);
+  static final _labelLargeTextDark = _labelLargeTextLight.copyWith(color: white);
+  static final _labelMediumTextDark = _labelMediumTextLight.copyWith(color: white);
 
   // #### TEXT THEMES ##########################################
   // Text Theme -> LIGHT
@@ -365,8 +354,7 @@ abstract class AppTheme {
     showDragHandle: true,
     dragHandleColor: grayLight1,
     shape: RoundedRectangleBorder(
-      borderRadius:
-          BorderRadius.vertical(top: Radius.circular(AppConstants.RADIUS_XL)),
+      borderRadius: BorderRadius.vertical(top: Radius.circular(AppConstants.RADIUS_XL)),
     ),
   );
 
@@ -388,8 +376,7 @@ abstract class AppTheme {
   // #### APP THEMES ###########################################
   // App Theme -> LIGHT
   static final appThemeLight = ThemeData(
-    brightness: Brightness
-        .light, // set this parameter to get the current ThemeMode in the app
+    brightness: Brightness.light, // set this parameter to get the current ThemeMode in the app
     useMaterial3: true,
     inputDecorationTheme: _inputDecorationThemeLight,
     textSelectionTheme: _textSelectionThemeLight,
@@ -399,16 +386,14 @@ abstract class AppTheme {
     bottomSheetTheme: _bottomSheetThemeLight,
     switchTheme: _switchThemeLight,
     splashColor: transparent, // deactivates the material button splash effect
-    highlightColor:
-        transparent, // deactivates the material button splash effect
+    highlightColor: transparent, // deactivates the material button splash effect
     hoverColor: transparent, // deactivates the material button splash effect
     extensions: [_colorPaletteLight, _shadowPaletteLight], // custom
   );
 
   // App Theme -> DARK
   static final appThemeDark = ThemeData(
-    brightness: Brightness
-        .dark, // set this parameter to get the current ThemeMode in the app
+    brightness: Brightness.dark, // set this parameter to get the current ThemeMode in the app
     useMaterial3: true,
     inputDecorationTheme: _inputDecorationThemeDark,
     textSelectionTheme: _textSelectionThemeDark,
@@ -418,8 +403,7 @@ abstract class AppTheme {
     bottomSheetTheme: _bottomSheetThemeDark,
     switchTheme: _switchThemeDark,
     splashColor: transparent, // deactivates the material button splash effect
-    highlightColor:
-        transparent, // deactivates the material button splash effect
+    highlightColor: transparent, // deactivates the material button splash effect
     hoverColor: transparent, // deactivates the material button splash effect
     extensions: [_colorPaletteDark, _shadowPaletteDark], // custom
   );
