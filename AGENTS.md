@@ -17,7 +17,16 @@
 - After completing features (large or small), always run all verification commands to ensure code quality and build health before finishing.
 
 ## Verification Commands
-Run all verification commands listed in [README.md](README.md#key-commands) (`flutter pub get`, `flutter gen-l10n`, `dart format lib test tool`, `flutter analyze --fatal-infos`, `sh tool/run_compiled.sh check_conventions`, `flutter test`) before finishing.
+Run all verification commands before finishing:
+
+| Task | Command | Purpose |
+| --- | --- | --- |
+| **Install Dependencies** | `flutter pub get` | Installs Flutter and Dart packages |
+| **Generate Localization** | `flutter gen-l10n` | Recompiles `.arb` files to Dart classes |
+| **Format Code** | `dart format lib test tool` | Enforces standard Dart formatting |
+| **Analyze Code** | `flutter analyze --fatal-infos` | Runs strict Dart analysis with zero warnings |
+| **Check Conventions** | `sh tool/run_compiled.sh check_conventions` | Validates Clean Architecture, comment rules, and test conventions |
+| **Run Tests** | `flutter test` | Executes all unit, BLoC, and headless app-flow tests |
 
 ## Mandatory Documentation Routing (Read Before Acting)
 Read the relevant documentation before making decisions or editing code in that area:

@@ -49,16 +49,3 @@ git switch -c feat/my-app-idea
    ```text
    /plan Inspect design/ and implement the initial app screens according to our architecture and theme mapping contract.
    ```
-
----
-
-## Key Commands
-
-| Task | Command | Purpose |
-| --- | --- | --- |
-| **Install Dependencies** | `flutter pub get` | Installs Flutter and Dart packages |
-| **Generate Localization** | `flutter gen-l10n` | Recompiles `.arb` files to Dart classes |
-| **Format Code** | `dart format lib test tool` | Enforces standard Dart formatting |
-| **Analyze Code** | `flutter analyze --fatal-infos` | Runs strict Dart analysis with zero warnings |
-| **Check Conventions** | `sh tool/run_compiled.sh check_conventions` | Validates Clean Architecture, comment rules, and test conventions |
-| **Run Tests** | `flutter test` | Executes all unit, BLoC, and headless app-flow tests |
