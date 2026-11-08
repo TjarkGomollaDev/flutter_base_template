@@ -100,11 +100,15 @@ Runs on every push to `main` and on pull requests targeting `main` with two jobs
 2. **`CI / Docs`:**
    - Validates and lints the OKF knowledge bundle in `docs/` via `okf validate docs` and `okf lint docs --fail-on warn`.
 
-### `PR` (`.github/workflows/pr-automation.yml`)
-Runs on pull request events with its **`PR / Check & Label`** job:
-- Validates the PR branch name and PR title against Conventional Commits (including optional `#<issue-id> ` prefix).
+### `PR / Check` (`.github/workflows/pr-check.yml`)
+Runs on pull request events (`opened`, `edited`, `synchronize`, `reopened`) with minimal `contents: read` permissions:
+- Validates branch name against the branch naming standard (including Dependabot branch format).
+- Validates PR title length (max 100 characters) and Conventional Commits pattern (including optional `#<issue-id> ` prefix).
+
+### `PR / Label` (`.github/workflows/pr-label.yml`)
+Runs on pull request events (`opened`, `edited`, `synchronize`, `reopened`) with write permissions:
 - Automatically assigns path and branch labels via `.github/labeler.yml` (including `guidelines/**` and `docs/**`).
-- Computes and assigns PR size labels (`size: S|M|L`).
+- Computes and assigns PR size labels (`size: S|M|L`), excluding lockfiles and generated files.
 
 ### Label Taxonomy
 New repositories created from this template can initialize all GitHub labels by running:
