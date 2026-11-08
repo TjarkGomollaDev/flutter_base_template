@@ -45,7 +45,7 @@ git switch -c feat/my-app-idea
 
 ### 3. Add Your Design & Start Planning
 1. Place your design files, exports, or specifications into `design/` (see [design/README.md](design/README.md)).
-2. Open your AI coding assistant and run `/plan`:
+2. Open your AI coding assistant and start planning:
    ```text
-   /plan Inspect design/ and implement the initial app screens according to our architecture and theme mapping contract.
+   Inspect design/ and implement the initial app screens according to our architecture and theme mapping contract.
    ```
