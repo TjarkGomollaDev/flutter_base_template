@@ -9,33 +9,34 @@ part 'theme_state.dart';
 class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   final InterfaceAppSettingsLocalDatasource _appSettingsLocalDatasource;
 
-  ThemeBloc(
-      {required InterfaceAppSettingsLocalDatasource appSettingsLocalDatasource})
-      : _appSettingsLocalDatasource = appSettingsLocalDatasource,
-        super(ThemeState._(useSystemTheme: true, themeMode: true)) {
-    on<ThemeEventLoadSettings>(_onLoadSettings);
-    on<ThemeEventChangeUseSystemTheme>(_onChangeUseSystemTheme);
-    on<ThemeEventChangeThemeMode>(_onChangeThemeMode);
-    add(ThemeEventLoadSettings());
+  ThemeBloc({required this._appSettingsLocalDatasource})
+    : super(const ThemeState._(useSystemTheme: true, themeMode: true)) {
+    on<ThemeEvent>(
+      _onEvent,
+      transformer: (events, mapper) => events.asyncExpand(mapper),
+    );
+    add(const ThemeEventLoadSettings());
   }
 
-  void _onLoadSettings(
-      ThemeEventLoadSettings event, Emitter<ThemeState> emit) async {
-    final useSystemTheme =
-        await _appSettingsLocalDatasource.getUseSystemTheme();
-    final themeMode = await _appSettingsLocalDatasource.getThemeMode();
-    emit(state.copyWith(useSystemTheme: useSystemTheme, themeMode: themeMode));
-  }
-
-  void _onChangeUseSystemTheme(
-      ThemeEventChangeUseSystemTheme event, Emitter<ThemeState> emit) {
-    _appSettingsLocalDatasource.setUseSystemTheme(value: !state.useSystemTheme);
-    emit(state.copyWith(useSystemTheme: !state.useSystemTheme));
-  }
-
-  void _onChangeThemeMode(
-      ThemeEventChangeThemeMode event, Emitter<ThemeState> emit) {
-    _appSettingsLocalDatasource.setThemeMode(value: !state.themeMode);
-    emit(state.copyWith(themeMode: !state.themeMode));
+  Future<void> _onEvent(ThemeEvent event, Emitter<ThemeState> emit) async {
+    switch (event) {
+      case ThemeEventLoadSettings():
+        final useSystemTheme = await _appSettingsLocalDatasource
+            .getUseSystemTheme();
+        final themeMode = await _appSettingsLocalDatasource.getThemeMode();
+        emit(
+          state.copyWith(useSystemTheme: useSystemTheme, themeMode: themeMode),
+        );
+      case ThemeEventChangeUseSystemTheme():
+        final nextUseSystemTheme = !state.useSystemTheme;
+        await _appSettingsLocalDatasource.setUseSystemTheme(
+          value: nextUseSystemTheme,
+        );
+        emit(state.copyWith(useSystemTheme: nextUseSystemTheme));
+      case ThemeEventChangeThemeMode():
+        final nextThemeMode = !state.themeMode;
+        await _appSettingsLocalDatasource.setThemeMode(value: nextThemeMode);
+        emit(state.copyWith(themeMode: nextThemeMode));
+    }
   }
 }

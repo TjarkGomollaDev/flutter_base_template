@@ -9,12 +9,7 @@ class ErrorPage extends StatelessWidget {
     final l10n = context.l10n;
 
     return Scaffold(
-      body: Center(
-        child: Text(
-          l10n.errorScreen,
-          textAlign: TextAlign.center,
-        ),
-      ),
+      body: Center(child: Text(l10n.errorScreen, textAlign: TextAlign.center)),
     );
   }
 }

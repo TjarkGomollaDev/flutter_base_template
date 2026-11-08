@@ -1,0 +1,85 @@
+'type: feat':
+  - head-branch: ['^feat/.*']
+
+'type: fix':
+  - head-branch: ['^fix/.*']
+
+'type: refactor':
+  - head-branch: ['^refactor/.*']
+
+'type: docs':
+  - head-branch: ['^docs/.*']
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'docs/**'
+          - 'README.md'
+          - 'design/**'
+
+'type: test':
+  - head-branch: ['^test/.*']
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'test/**'
+
+'type: chore':
+  - head-branch: ['^chore/.*']
+
+'type: ci':
+  - head-branch: ['^ci/.*']
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.github/**'
+
+'layer: presentation':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'lib/1st_layer_presentation/**'
+
+'layer: application':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'lib/2nd_layer_application/**'
+
+'layer: domain':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'lib/3rd_layer_domain/**'
+
+'layer: infrastructure':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'lib/4th_layer_infrastructure/**'
+
+'scope: core':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'lib/core/**'
+          - 'lib/app_*.dart'
+          - 'lib/main.dart'
+
+'scope: l10n':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'lib/l10n/**'
+          - 'l10n.yaml'
+
+'scope: ai-tooling':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'AGENTS.md'
+          - 'CLAUDE.md'
+          - 'GEMINI.md'
+          - '.claude/**'
+          - '.agents/**'
+          - '.gemini/**'
+          - '.opencode/**'
+          - 'opencode.json'
+          - '.mcp.json'
+          - 'tool/**'
+          - '.hooks/**'
+
+'scope: deps':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'pubspec.yaml'
+          - 'pubspec.lock'

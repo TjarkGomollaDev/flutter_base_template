@@ -1,0 +1,97 @@
+#!/bin/sh
+set -e
+
+export PATH="$PATH:/opt/homebrew/bin:/usr/local/bin"
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+cd "$ROOT"
+
+git_dir="$(git rev-parse --git-dir 2>/dev/null || echo .git)"
+
+# Step 1: Branch check (unless detached HEAD, active rebase/cherry-pick, or unborn HEAD).
+is_detached=0
+branch=$(git symbolic-ref -q --short HEAD 2>/dev/null || true)
+if [ -z "$branch" ]; then
+  is_detached=1
+fi
+
+is_rebase_or_cherry_pick=0
+if [ -d "$git_dir/rebase-merge" ] || [ -d "$git_dir/rebase-apply" ] || [ -f "$git_dir/CHERRY_PICK_HEAD" ]; then
+  is_rebase_or_cherry_pick=1
+fi
+
+is_unborn=0
+if ! git rev-parse --verify HEAD >/dev/null 2>&1; then
+  is_unborn=1
+fi
+
+if [ "$is_detached" -eq 0 ] && [ "$is_rebase_or_cherry_pick" -eq 0 ] && [ "$is_unborn" -eq 0 ]; then
+  valid_branch_regex="^(feat|fix|refactor|docs|test|chore|ci)/[a-z0-9]+(-[a-z0-9]+)*$"
+  if ! echo "$branch" | grep -Eq "$valid_branch_regex"; then
+    echo "ERROR: Commits on branch '$branch' violate convention." >&2
+    echo "Direct commits on main/master are forbidden." >&2
+    echo "Please create a valid feature branch first:" >&2
+    echo "  git switch -c feat/<short-description>" >&2
+    exit 1
+  fi
+fi
+
+# Step 2: Check staged .dart files.
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACMR -- '*.dart' || true)
+if [ -z "$STAGED_FILES" ]; then
+  exit 0
+fi
+
+# Locate direct Dart SDK binary dynamically from Flutter root or PATH.
+DART_CMD="dart"
+FLUTTER_PATH="$(command -v flutter 2>/dev/null || true)"
+if [ -n "$FLUTTER_PATH" ]; then
+  TARGET="$FLUTTER_PATH"
+  while [ -L "$TARGET" ]; do
+    DIR="$(cd -P "$(dirname "$TARGET")" && pwd)"
+    TARGET="$(readlink "$TARGET")"
+    case "$TARGET" in
+      /*) ;;
+      *) TARGET="$DIR/$TARGET" ;;
+    esac
+  done
+  FLUTTER_DIR="$(cd -P "$(dirname "$TARGET")" && pwd)"
+  CANDIDATE="$FLUTTER_DIR/cache/dart-sdk/bin/dart"
+  if [ -x "$CANDIDATE" ]; then
+    DART_CMD="$CANDIDATE"
+  fi
+fi
+
+if ! command -v "$DART_CMD" >/dev/null 2>&1 && [ ! -x "$DART_CMD" ]; then
+  echo "Error: Dart SDK not found in PATH." >&2
+  exit 1
+fi
+
+# Check whether working tree modifications exist on staged files.
+if git diff --quiet -- $STAGED_FILES; then
+  "$DART_CMD" format --output=none --set-exit-if-changed $STAGED_FILES
+  sh tool/run_compiled.sh check_conventions $STAGED_FILES
+else
+  # Partially staged files: extract index snapshots into a temp directory to check.
+  TMP_DIR="$(mktemp -d)"
+  trap 'rm -rf "$TMP_DIR" 2>/dev/null' EXIT INT TERM
+
+  git checkout-index --prefix="$TMP_DIR/" -- $STAGED_FILES
+  if [ -f "pubspec.yaml" ]; then
+    cp "pubspec.yaml" "$TMP_DIR/"
+  fi
+
+  # Validate formatting of staged blobs.
+  TMP_FILES=""
+  for f in $STAGED_FILES; do
+    TMP_FILES="$TMP_FILES $TMP_DIR/$f"
+  done
+  "$DART_CMD" format --output=none --set-exit-if-changed $TMP_FILES
+
+  # Validate conventions against staged index snapshot.
+  sh tool/run_compiled.sh check_conventions --root "$TMP_DIR" $STAGED_FILES
+
+  rm -rf "$TMP_DIR"
+  trap - EXIT INT TERM
+fi

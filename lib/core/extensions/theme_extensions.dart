@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// color palette
 class ColorPalette extends ThemeExtension<ColorPalette> {
   final Color primary;
   final Color onPrimary;
@@ -91,7 +90,6 @@ class ColorPalette extends ThemeExtension<ColorPalette> {
   }
 }
 
-// shadow palette
 class ShadowPalette extends ThemeExtension<ShadowPalette> {
   final BoxShadow containerShadow;
   final BoxShadow primaryBtnShadow;
@@ -125,17 +123,25 @@ class ShadowPalette extends ThemeExtension<ShadowPalette> {
       return this;
     }
     return ShadowPalette(
-      containerShadow:
-          BoxShadow.lerp(containerShadow, other.containerShadow, t)!,
-      primaryBtnShadow:
-          BoxShadow.lerp(primaryBtnShadow, other.primaryBtnShadow, t)!,
-      onPrimaryBtnShadow:
-          BoxShadow.lerp(onPrimaryBtnShadow, other.onPrimaryBtnShadow, t)!,
+      containerShadow: BoxShadow.lerp(
+        containerShadow,
+        other.containerShadow,
+        t,
+      )!,
+      primaryBtnShadow: BoxShadow.lerp(
+        primaryBtnShadow,
+        other.primaryBtnShadow,
+        t,
+      )!,
+      onPrimaryBtnShadow: BoxShadow.lerp(
+        onPrimaryBtnShadow,
+        other.onPrimaryBtnShadow,
+        t,
+      )!,
     );
   }
 }
 
-// getter
 extension ThemeDataExtensions on ThemeData {
   ColorPalette get colorPalette => extension<ColorPalette>()!;
   ShadowPalette get shadowPalette => extension<ShadowPalette>()!;

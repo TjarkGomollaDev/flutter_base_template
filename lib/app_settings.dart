@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-Future<void> init() async {
+void init() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -10,5 +14,10 @@ Future<void> init() async {
     ),
   );
 
-  WidgetsFlutterBinding.ensureInitialized();
+  unawaited(
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]),
+  );
 }

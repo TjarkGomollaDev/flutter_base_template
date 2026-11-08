@@ -1,0 +1,106 @@
+name: PR Automation
+
+on:
+  pull_request_target:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  automation:
+    name: Validate, Label & Size PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate branch name and PR title
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+        run: |
+          set -euo pipefail
+          FAILED=0
+
+          # Validate branch name
+          if [ "$PR_AUTHOR" = "dependabot[bot]" ]; then
+            if ! echo "$HEAD_REF" | grep -Eq '^dependabot/[a-zA-Z0-9._/-]+$'; then
+              echo "::error::Invalid dependabot branch name '$HEAD_REF'."
+              FAILED=1
+            fi
+          else
+            if ! echo "$HEAD_REF" | grep -Eq '^(feat|fix|refactor|docs|test|chore|ci)/[a-z0-9]+(-[a-z0-9]+)*$'; then
+              echo "::error::Invalid branch name '$HEAD_REF'. Branches must match '^(feat|fix|refactor|docs|test|chore|ci)/[a-z0-9]+(-[a-z0-9]+)*$' (e.g. 'feat/user-login')."
+              FAILED=1
+            fi
+          fi
+
+          # Validate PR title length
+          TITLE_LEN="${#PR_TITLE}"
+          if [ "$TITLE_LEN" -gt 100 ]; then
+            echo "::error::PR title exceeds 100 characters ($TITLE_LEN chars): '$PR_TITLE'."
+            FAILED=1
+          fi
+
+          # Validate PR title Conventional Commits pattern
+          if ! echo "$PR_TITLE" | grep -Eq '^(feat|fix|refactor|docs|test|chore|ci)(\([a-z0-9_-]+\))?!?: [a-z].*[^. ]$'; then
+            echo "::error::Invalid PR title '$PR_TITLE'. Must match Conventional Commits: '^(feat|fix|refactor|docs|test|chore|ci)(\([a-z0-9_-]+\))?!?: [a-z].*[^. ]$' (max 100 chars, first letter after colon lowercase, no trailing period)."
+            FAILED=1
+          fi
+
+          if [ "$FAILED" -ne 0 ]; then
+            exit 1
+          fi
+
+      - name: Apply path and branch labels
+        uses: actions/labeler@v6
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          sync-labels: false
+
+      - name: Compute and apply PR size label
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          TOTAL_CHANGES=$(gh api "repos/${REPO}/pulls/${PR_NUMBER}/files" --paginate --jq '
+            .[] |
+            select(
+              (.filename != "pubspec.lock") and
+              ((.filename | test("^lib/l10n/app_localizations.*\\.dart$")) | not) and
+              ((.filename | test("\\.g\\.dart$")) | not) and
+              ((.filename | test("\\.freezed\\.dart$")) | not)
+            ) |
+            (.additions + .deletions)
+          ' | awk '{s+=$1} END {print s+0}')
+
+          echo "Total calculated changes (excluding lockfile & generated files): $TOTAL_CHANGES"
+
+          if [ "$TOTAL_CHANGES" -le 100 ]; then
+            SIZE_LABEL="size: S"
+          elif [ "$TOTAL_CHANGES" -le 300 ]; then
+            SIZE_LABEL="size: M"
+          else
+            SIZE_LABEL="size: L"
+          fi
+
+          # Ensure size labels exist in repository
+          gh label create "size: S" --repo "$REPO" --color "0e8a16" --description "Small changes (<= 100 lines)" --force
+          gh label create "size: M" --repo "$REPO" --color "fbca04" --description "Medium changes (101-300 lines)" --force
+          gh label create "size: L" --repo "$REPO" --color "d93f0b" --description "Large changes (> 300 lines)" --force
+
+          # Remove obsolete size labels on PR if present
+          CURRENT_LABELS=$(gh pr view "$PR_NUMBER" --repo "$REPO" --json labels --jq '.labels[].name')
+          for l in "size: S" "size: M" "size: L"; do
+            if [ "$l" != "$SIZE_LABEL" ] && echo "$CURRENT_LABELS" | grep -Fxq "$l"; then
+              echo "Removing stale label: $l"
+              gh pr edit "$PR_NUMBER" --repo "$REPO" --remove-label "$l" || true
+            fi
+          done
+
+          echo "Applying label: $SIZE_LABEL"
+          gh pr edit "$PR_NUMBER" --repo "$REPO" --add-label "$SIZE_LABEL"

@@ -1,0 +1,29 @@
+#!/bin/sh
+set -e
+
+export PATH="$PATH:/opt/homebrew/bin:/usr/local/bin"
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+cd "$ROOT"
+
+has_push=0
+zero_sha="0000000000000000000000000000000000000000"
+
+while read -r local_ref local_sha remote_ref remote_sha; do
+  if [ -n "$local_sha" ] && [ "$local_sha" != "$zero_sha" ]; then
+    has_push=1
+  fi
+done
+
+# If only deleting remote branches or empty stdin, skip.
+if [ "$has_push" -eq 0 ]; then
+  exit 0
+fi
+
+if [ ! -f ".dart_tool/package_config.json" ]; then
+  flutter pub get
+fi
+
+flutter analyze --fatal-infos
+flutter test --no-pub --reporter compact

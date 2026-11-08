@@ -1,0 +1,59 @@
+#!/bin/sh
+set -e
+
+MSG_FILE="$1"
+if [ -z "$MSG_FILE" ] || [ ! -f "$MSG_FILE" ]; then
+  echo "Error: Commit message file not found." >&2
+  exit 1
+fi
+
+git_dir="$(git rev-parse --git-dir 2>/dev/null || echo .git)"
+
+# Allow merge commits.
+if [ -f "$git_dir/MERGE_HEAD" ]; then
+  exit 0
+fi
+
+# Extract first non-comment line.
+subject=$(sed -n '/^#/!{p;q;}' "$MSG_FILE" | tr -d '\r')
+
+if [ -z "$subject" ]; then
+  echo "ERROR: Commit subject cannot be empty." >&2
+  exit 1
+fi
+
+# Allow automated git commits: merge, revert, fixup!, squash!
+case "$subject" in
+  Merge\ *|Revert\ \"*|fixup!\ *|squash!\ *)
+    exit 0
+    ;;
+esac
+
+# Check length <= 100.
+subject_len=${#subject}
+if [ "$subject_len" -gt 100 ]; then
+  echo "ERROR: Commit subject exceeds 100 characters ($subject_len characters):" >&2
+  echo "  $subject" >&2
+  exit 1
+fi
+
+# Validate Conventional Commits pattern.
+conventional_regex="^(feat|fix|refactor|docs|test|chore|ci)(\([a-z0-9_-]+\))?!?: [a-z].*[^. ]$"
+
+if ! echo "$subject" | grep -Eq "$conventional_regex"; then
+  echo "ERROR: Commit message does not follow Conventional Commits format:" >&2
+  echo "  $subject" >&2
+  echo "" >&2
+  echo "Format: <type>(<scope>)?: <description-starting-with-lowercase>" >&2
+  echo "Rules:" >&2
+  echo "  - Allowed types: feat, fix, refactor, docs, test, chore, ci" >&2
+  echo "  - First letter after ': ' must be lowercase" >&2
+  echo "  - No period at the end" >&2
+  echo "  - Maximum 100 characters" >&2
+  echo "" >&2
+  echo "Valid examples:" >&2
+  echo "  feat(auth): add biometric authentication toggle" >&2
+  echo "  fix: resolve theme toggle race condition" >&2
+  echo "  refactor(routing): extract app router to instance dependency" >&2
+  exit 1
+fi
