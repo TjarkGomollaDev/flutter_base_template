@@ -1,18 +1,15 @@
 part of 'locale_bloc.dart';
 
+@immutable
 class LocaleState extends Equatable {
   final Locale? locale;
 
-  const LocaleState._({
-    this.locale,
-  });
+  const factory LocaleState({Locale? locale}) = LocaleState._;
 
-  LocaleState copyWith({
-    Locale? Function()? locale,
-  }) {
-    return LocaleState._(
-      locale: locale != null ? locale() : this.locale,
-    );
+  const LocaleState._({this.locale});
+
+  LocaleState copyWith({Locale? Function()? locale}) {
+    return LocaleState._(locale: locale != null ? locale() : this.locale);
   }
 
   @override

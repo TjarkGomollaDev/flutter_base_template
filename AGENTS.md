@@ -1,35 +1,29 @@
-# CRITICAL RULES - MUST FOLLOW
+# CRITICAL RULES — MUST FOLLOW
 
-## RESPONSES
-- Keep responses concise and to the point - unless the user asks otherwise
+## Responses
+- Keep responses concise and to the point unless asked otherwise.
 
-## PLANNING MODE
-- Always ask clarifying questions
-- Never assume design, tech stack or features
-- Use deep-dive sub-agents to assist with research
-- Use deep-dive sub-agents to review the different aspects of your plan before presenting to the user
+## Planning Mode
+- Always ask clarifying questions before designing or implementing.
+- Never assume design, tech stack, or features without explicit confirmation.
+- Use deep-dive sub-agents to assist with research and explore trade-offs.
+- Use deep-dive sub-agents to review all aspects of your plan before presenting to the user.
 
-## CHANGE / EDIT MODE
-- Never implement features yourself when possible - use sub-agents!
-- Identify changes from the plan that can be implemented in parallel, and use sub-agents to implement the features efficiently
-- When using sub-agents to implement features, act as a coordinator only
-- Use the best model for the task - premium models for complex tasks (like coding) and mid-tier models for simpler tasks, like documentation
-- After completing features (large or small), always run commands like lint, type check and next build to check code quality
+## Change / Edit Mode
+- Never implement features yourself when possible — use sub-agents!
+- Identify changes from the plan that can be implemented in parallel, and delegate to sub-agents with disjoint file scopes.
+- When using sub-agents to implement features, act as a coordinator only.
+- Select model tier matching task complexity: premium models for complex coding, mid-tier models for simpler tasks or documentation.
+- After completing features (large or small), always run all verification commands to ensure code quality and build health before finishing.
 
-## Architecture & Entrypoints
-- Always follow the architecture defined in @ARCHITECTURE.md.
-- Main entrypoint: `lib/main.dart`.
+## Verification Commands
+Run all verification commands listed in [README.md](README.md#key-commands) (`flutter pub get`, `flutter gen-l10n`, `dart format lib test tool`, `flutter analyze --fatal-infos`, `sh tool/run_compiled.sh check_conventions`, `flutter test`) before finishing.
 
-## Verification & Commands
-- **Install dependencies:** `flutter pub get`
-- **Run tests:** `flutter test` (must pass after modifying UI)
-- **Linting:** `flutter analyze`
-- **Formatting:** `dart format lib test`
-
-## Workflow Conventions
-- Always run `flutter test` and `flutter analyze` before committing changes to ensure the build stays green.
-- If the default UI structure in `lib/main.dart` is modified, verify and update `test/widget_test.dart` as it acts as a smoke test for the app launch.
-
-## UI DESIGN
-- Always follow the UI design system when creating or reviewing components or pages.
-- Design System: @DESIGN.md
+## Mandatory Documentation Routing (Read Before Acting)
+Read the relevant documentation before making decisions or editing code in that area:
+- Architecture, 4-layer rules, BLoC, DI, routing, l10n & UI test keys: [guidelines/ARCHITECTURE.md](guidelines/ARCHITECTURE.md)
+- Design handoff & Flutter theme token mapping: [design/README.md](design/README.md)
+- Code comment rules, `///` restrictions & where knowledge belongs: [guidelines/CODE_COMMENTS.md](guidelines/CODE_COMMENTS.md)
+- Testing philosophy, UI finders & test rules: [guidelines/TESTING.md](guidelines/TESTING.md)
+- Branch, commit, PR naming (incl. Issue ID), labels & hooks: [guidelines/GIT_WORKFLOW.md](guidelines/GIT_WORKFLOW.md)
+- Project knowledge bundle (OKF): [docs/index.md](docs/index.md) & [docs/meta/conventions.md](docs/meta/conventions.md) — read before changing domain/feature behavior and update in the same PR. Never clutter `README.md`, `AGENTS.md`, `design/README.md`, or `guidelines/*.md` with app-specific feature notes.

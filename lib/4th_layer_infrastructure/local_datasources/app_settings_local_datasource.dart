@@ -1,53 +1,47 @@
-// ignore_for_file: constant_identifier_names
-
 import 'package:flutter_base_template/3rd_layer_domain/interfaces_local_datasources/interface_app_settings_local_datasource.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppSettingsLocalDatasource
     implements InterfaceAppSettingsLocalDatasource {
   final SharedPreferencesAsync _sharedPreferencesAsync;
-  static const String _STORAGE_USE_STYSTEM_THEME = 'use_system_theme';
-  static const String _STORAGE_THEME_MODE = 'theme_mode';
-  static const String _STORAGE_LANGUAGE_CODE = 'language_code';
+  static const String _storageUseSystemTheme = 'use_system_theme';
+  static const String _storageThemeMode = 'theme_mode';
+  static const String _storageLanguageCode = 'language_code';
 
-  AppSettingsLocalDatasource({
-    required SharedPreferencesAsync sharedPreferencesAsync,
-  }) : _sharedPreferencesAsync = sharedPreferencesAsync;
+  AppSettingsLocalDatasource({required this._sharedPreferencesAsync});
 
-  // theme
   @override
   Future<void> setUseSystemTheme({required bool value}) async {
-    await _sharedPreferencesAsync.setBool(_STORAGE_USE_STYSTEM_THEME, value);
+    await _sharedPreferencesAsync.setBool(_storageUseSystemTheme, value);
   }
 
   @override
   Future<bool> getUseSystemTheme() async {
-    return await _sharedPreferencesAsync.getBool(_STORAGE_USE_STYSTEM_THEME) ??
+    return (await _sharedPreferencesAsync.getBool(_storageUseSystemTheme)) ??
         true;
   }
 
   @override
   Future<void> setThemeMode({required bool value}) async {
-    await _sharedPreferencesAsync.setBool(_STORAGE_THEME_MODE, value);
+    await _sharedPreferencesAsync.setBool(_storageThemeMode, value);
   }
 
   @override
   Future<bool> getThemeMode() async {
-    return await _sharedPreferencesAsync.getBool(_STORAGE_THEME_MODE) ?? true;
+    return (await _sharedPreferencesAsync.getBool(_storageThemeMode)) ?? true;
   }
 
-  // locale
   @override
   Future<void> setLanguageCode({required String? code}) async {
     if (code == null) {
-      await _sharedPreferencesAsync.remove(_STORAGE_LANGUAGE_CODE);
+      await _sharedPreferencesAsync.remove(_storageLanguageCode);
     } else {
-      await _sharedPreferencesAsync.setString(_STORAGE_LANGUAGE_CODE, code);
+      await _sharedPreferencesAsync.setString(_storageLanguageCode, code);
     }
   }
 
   @override
-  Future<String?> getLanguageCode() async {
-    return await _sharedPreferencesAsync.getString(_STORAGE_LANGUAGE_CODE);
+  Future<String?> getLanguageCode() {
+    return _sharedPreferencesAsync.getString(_storageLanguageCode);
   }
 }

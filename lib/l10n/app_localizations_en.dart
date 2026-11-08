@@ -37,6 +37,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'We are sorry, this page doesn\'t exist or an error happened.\nPlease restart the app.';
 
   @override
-  String get errorUnknow =>
+  String get errorUnknown =>
       'Unknown issue. Please retry or reach out to our support.';
 }

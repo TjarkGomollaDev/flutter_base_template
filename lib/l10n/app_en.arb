@@ -9,5 +9,5 @@
   "placeholderPage3": "Placeholder Page 3",
   "placeholderPage4": "Placeholder Page 4",
   "errorScreen": "We are sorry, this page doesn't exist or an error happened.\nPlease restart the app.",
-  "errorUnknow": "Unknown issue. Please retry or reach out to our support."
+  "errorUnknown": "Unknown issue. Please retry or reach out to our support."
 }

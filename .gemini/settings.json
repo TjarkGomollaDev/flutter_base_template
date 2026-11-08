@@ -1,0 +1,48 @@
+{
+  "context": {
+    "fileName": "AGENTS.md"
+  },
+  "mcpServers": {
+    "dart": {
+      "command": "dart",
+      "args": ["mcp-server"]
+    }
+  },
+  "hooks": {
+    "BeforeTool": [
+      {
+        "matcher": "run_shell_command",
+        "hooks": [
+          {
+            "type": "command",
+            "name": "convention-guard",
+            "command": "sh tool/run_compiled.sh agent_hook gemini pre-tool"
+          }
+        ]
+      }
+    ],
+    "AfterTool": [
+      {
+        "matcher": "write_file|replace|edit_file",
+        "hooks": [
+          {
+            "type": "command",
+            "name": "convention-guard",
+            "command": "sh tool/run_compiled.sh agent_hook gemini post-tool"
+          }
+        ]
+      }
+    ],
+    "AfterAgent": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "name": "convention-guard-stop",
+            "command": "sh tool/run_compiled.sh agent_hook gemini stop"
+          }
+        ]
+      }
+    ]
+  }
+}

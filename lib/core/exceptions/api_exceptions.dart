@@ -1,23 +1,13 @@
 import 'package:dio/dio.dart';
 
-enum ApiErrorType {
-  timeout,
-  badResponse,
-  noInternet,
-  unknown,
-}
+enum ApiErrorType { timeout, badResponse, noInternet, unknown }
 
-/// Unified exception class for the entire app.
 class ApiException implements Exception {
   final String message;
   final int? statusCode;
   final ApiErrorType type;
 
-  ApiException({
-    required this.message,
-    required this.type,
-    this.statusCode,
-  });
+  ApiException({required this.message, required this.type, this.statusCode});
 
   factory ApiException.fromDioException(DioException error) {
     switch (error.type) {
@@ -25,25 +15,25 @@ class ApiException implements Exception {
       case DioExceptionType.receiveTimeout:
       case DioExceptionType.sendTimeout:
         return ApiException(
-          message: "Connection to server timed out.",
+          message: 'Connection to server timed out.',
           type: ApiErrorType.timeout,
         );
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
         return ApiException(
           message:
-              "Server error: $statusCode. ${error.response?.statusMessage}",
+              'Server error: $statusCode. ${error.response?.statusMessage}',
           statusCode: statusCode,
           type: ApiErrorType.badResponse,
         );
       case DioExceptionType.connectionError:
         return ApiException(
-          message: "No internet connection.",
+          message: 'No internet connection.',
           type: ApiErrorType.noInternet,
         );
       default:
         return ApiException(
-          message: "Unexpected network error.",
+          message: 'Unexpected network error.',
           type: ApiErrorType.unknown,
         );
     }

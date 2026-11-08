@@ -1,5 +1,5 @@
-import 'package:uuid/uuid.dart';
 import 'package:equatable/equatable.dart';
+import 'package:uuid/uuid.dart';
 
 class ExampleItemEntity extends Equatable {
   final String id;
@@ -13,11 +13,7 @@ class ExampleItemEntity extends Equatable {
   });
 
   ExampleItemEntity.newExampleItem()
-      : this(
-          id: const Uuid().v1(),
-          title: 'title',
-          description: 'description',
-        );
+    : this(id: const Uuid().v4(), title: 'title', description: 'description');
 
   @override
   List<Object?> get props => [id, title, description];

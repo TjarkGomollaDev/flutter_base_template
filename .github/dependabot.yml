@@ -1,0 +1,28 @@
+version: 2
+updates:
+  - package-ecosystem: "pub"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    labels:
+      - "type: chore"
+      - "scope: deps"
+    ignore:
+      - dependency-name: "equatable"
+        versions: [">= 3.0.0"]
+      - dependency-name: "go_router"
+        versions: [">= 18.0.0"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    labels:
+      - "type: ci"
+      - "scope: deps"
