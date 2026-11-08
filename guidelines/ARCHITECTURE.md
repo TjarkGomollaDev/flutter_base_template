@@ -11,8 +11,6 @@ flowchart TD
     L4 -. "implements" .-> L3
 ```
 
----
-
 ## The 4 Clean Architecture Layers
 
 ### 1st Layer: Presentation (`lib/1st_layer_presentation/`)
@@ -81,7 +79,21 @@ return rawList
     .toList();
 ```
 
----
+## Cross-Cutting Core (`lib/core/`)
+
+- **Purpose:** Centralized repository for feature-agnostic utilities, technical infrastructure abstractions, and framework extensions shared across layers. Houses zero business domain logic.
+- **Folder Structure:**
+  - `network/`: Central `ApiClient` encapsulating `Dio`, automatic base URL configuration, request/response logging, standard headers, and timeouts.
+  - `exceptions/`: Low-level technical and transport exceptions (`ApiException`, `ApiErrorType`, `ExceptionUnknown`) thrown by datasources or clients before mapping to domain failures.
+  - `extensions/`: Ergonomic extensions on framework and language types:
+    - `BuildContext`: Direct inline access to design tokens (`context.colorPalette`, `context.shadowPalette`, `context.textTheme`), window metrics (`context.sizeOf`, `context.paddingOf`), and localization (`context.l10n`).
+    - `ThemeExtension`: Strongly-typed `ColorPalette` and `ShadowPalette` models for semantic theme consumption.
+    - Primitives: Numeric layout spacers (`.heightSizedBox`, `.widthSizedBox`) and string utilities.
+  - `enums/`: Shared technical, presentation, or layout enums that span multiple features.
+- **Rules & Restrictions:**
+  - **No Feature Dependencies:** Must never import feature-specific code (`lib/1st_layer_presentation/<feature>/`, `lib/2nd_layer_application/<feature>/`).
+  - **Dio Encapsulation:** Direct instantiation of `Dio()` is strictly forbidden outside `lib/core/network/api_client.dart` (enforced by `architecture_checker.dart`).
+  - **Domain Pure-Dart Boundary:** `3rd_layer_domain/` must remain 100% pure Dart and must never import Flutter-dependent core files (`build_context_extensions.dart`, `theme_extensions.dart`).
 
 ## App-Level Wiring (`lib/app_*.dart`)
 
@@ -98,8 +110,6 @@ The root `lib/` folder contains centralized configuration files wiring the appli
 | `app_constants.dart` | `SCREAMING_SNAKE_CASE` layout tokens: paddings, corner radii, icon sizes, and component dimensions. No magic numbers in UI code. |
 | `app_bloc_observer.dart` | Central BLoC transition and error observer logging lifecycle events via `Logger`. |
 
----
-
 ## Localization (`lib/l10n/`)
 
 - Localization is managed via standard Flutter ARB files located in `lib/l10n/`:
@@ -108,8 +118,6 @@ The root `lib/` folder contains centralized configuration files wiring the appli
 - Run `flutter gen-l10n` to update generated classes in `lib/l10n/app_localizations.dart`.
 - Access translations in widgets directly inline through the extension `context.l10n.<key>`.
 - Never hardcode user-facing strings or fallback text in widgets.
-
----
 
 ## UI Testability & Key Anchors
 

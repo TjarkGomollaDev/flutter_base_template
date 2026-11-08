@@ -115,7 +115,6 @@ abstract class AppTheme {
 
   // #### ALL TEXT STYLES ####
   static const _displayLargeTextLight = TextStyle(
-    fontFamily: 'Poppins',
     color: black,
     fontSize: 60,
     fontWeight: FontWeight.w700,
@@ -123,7 +122,6 @@ abstract class AppTheme {
   );
 
   static const _displayMediumTextLight = TextStyle(
-    fontFamily: 'Poppins',
     color: black,
     fontSize: 40,
     fontWeight: FontWeight.w700,
@@ -131,7 +129,6 @@ abstract class AppTheme {
   );
 
   static const _displaySmallTextLight = TextStyle(
-    fontFamily: 'Poppins',
     color: black,
     fontSize: 28,
     fontWeight: FontWeight.w700,

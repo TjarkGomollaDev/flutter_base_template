@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'src/architecture_checker.dart';
 import 'src/comment_checker.dart';
+import 'src/markdown_checker.dart';
 import 'src/test_checker.dart';
 
 void main(List<String> args) {
@@ -322,7 +323,7 @@ void _handleStop(String harness, Map<String, dynamic> input) {
     }
   }
 
-  final modifiedFiles = _getModifiedDartFiles();
+  final modifiedFiles = _getModifiedFiles();
   final violations = <ConventionViolation>[];
 
   for (final filePath in modifiedFiles) {
@@ -372,7 +373,7 @@ void _handleStop(String harness, Map<String, dynamic> input) {
   exit(1);
 }
 
-List<String> _getModifiedDartFiles() {
+List<String> _getModifiedFiles() {
   final files = <String>{};
   try {
     final statusResult = Process.runSync('git', <String>[
@@ -384,7 +385,7 @@ List<String> _getModifiedDartFiles() {
       for (final line in lines) {
         if (line.length > 3) {
           final file = line.substring(3).trim();
-          if (file.endsWith('.dart')) {
+          if (file.endsWith('.dart') || file.endsWith('.md')) {
             files.add(file);
           }
         }
@@ -402,15 +403,19 @@ void _handleCheckFiles(List<String> filePaths) {
 
   for (final filePath in filePaths) {
     final normalized = filePath.replaceAll(r'\', '/');
-    if (!normalized.endsWith('.dart') || _isGenerated(normalized)) continue;
+    final isDart = normalized.endsWith('.dart');
+    final isMd = normalized.endsWith('.md');
+    if ((!isDart && !isMd) || _isGenerated(normalized)) continue;
 
     final file = File(filePath);
     if (!file.existsSync()) continue;
 
-    try {
-      Process.runSync(dartCmd, <String>['format', filePath]);
-    } catch (_) {
-      // Ignore format execution errors.
+    if (isDart) {
+      try {
+        Process.runSync(dartCmd, <String>['format', filePath]);
+      } catch (_) {
+        // Ignore format execution errors.
+      }
     }
 
     violations.addAll(_runCheckersOnFile(normalized, file.readAsStringSync()));
@@ -428,6 +433,11 @@ void _handleCheckFiles(List<String> filePaths) {
 
 List<ConventionViolation> _runCheckersOnFile(String filePath, String source) {
   final normalized = filePath.replaceAll(r'\', '/');
+  if (normalized.endsWith('.md')) {
+    const markdownChecker = MarkdownChecker();
+    return markdownChecker.checkSource(normalized, source);
+  }
+
   const commentChecker = CommentChecker();
   const testChecker = TestChecker();
   const architectureChecker = ArchitectureChecker();

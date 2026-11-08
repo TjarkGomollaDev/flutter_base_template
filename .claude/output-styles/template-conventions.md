@@ -51,3 +51,6 @@ Always follow these imperative conventions across all planning, coding, and revi
 - Commits & PRs: `^(feat|fix|refactor|docs|test|chore|ci)(\([a-z0-9_-]+\))?!?: (#[0-9]+ )?[a-z].*[^. ]$` (include `#<issue-id> ` when a GitHub Issue exists, max 100 chars).
 - Never commit directly to `main` or `master`. Never use `--no-verify`.
 - `README.md`, `AGENTS.md`, `design/README.md`, and `guidelines/*.md` are static template files and must never be cluttered with app feature notes.
+
+## 5. Documentation & Markdown Hygiene
+- Standalone horizontal rule dividers (`---`, `***`, `___`) are strictly forbidden across all Markdown files. Structure content cleanly using Markdown headings (`#`, `##`, `###`). The only permitted `---` lines are YAML frontmatter delimiters at the top of concept files.
