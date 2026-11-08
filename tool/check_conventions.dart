@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'src/architecture_checker.dart';
 import 'src/comment_checker.dart';
+import 'src/markdown_checker.dart';
 import 'src/test_checker.dart';
 
 void main(List<String> args) {
@@ -20,13 +21,23 @@ void main(List<String> args) {
   }
 
   if (targets.isEmpty) {
-    targets.addAll(<String>['lib', 'test', 'tool']);
+    targets.addAll(<String>[
+      'lib',
+      'test',
+      'tool',
+      'docs',
+      'guidelines',
+      'design',
+      'README.md',
+      'AGENTS.md',
+    ]);
   }
 
-  final files = _collectDartFiles(rootDir, targets);
+  final files = _collectFiles(rootDir, targets);
   const commentChecker = CommentChecker();
   const testChecker = TestChecker();
   const architectureChecker = ArchitectureChecker();
+  const markdownChecker = MarkdownChecker();
 
   final violations = <ConventionViolation>[];
 
@@ -35,6 +46,11 @@ void main(List<String> args) {
     if (_isGenerated(relativePath)) continue;
 
     final content = file.readAsStringSync();
+
+    if (relativePath.endsWith('.md')) {
+      violations.addAll(markdownChecker.checkFile(relativePath, content));
+      continue;
+    }
 
     violations.addAll(commentChecker.checkFile(relativePath, content));
 
@@ -68,7 +84,7 @@ bool _isGenerated(String path) {
       path.startsWith('build/');
 }
 
-List<File> _collectDartFiles(String rootDir, List<String> targets) {
+List<File> _collectFiles(String rootDir, List<String> targets) {
   final files = <File>[];
 
   for (final target in targets) {
@@ -78,7 +94,7 @@ List<File> _collectDartFiles(String rootDir, List<String> targets) {
 
     final type = FileSystemEntity.typeSync(resolvedPath);
     if (type == FileSystemEntityType.file) {
-      if (resolvedPath.endsWith('.dart')) {
+      if (resolvedPath.endsWith('.dart') || resolvedPath.endsWith('.md')) {
         files.add(File(resolvedPath));
       }
     } else if (type == FileSystemEntityType.directory) {
@@ -88,7 +104,8 @@ List<File> _collectDartFiles(String rootDir, List<String> targets) {
           recursive: true,
           followLinks: false,
         )) {
-          if (entity is File && entity.path.endsWith('.dart')) {
+          if (entity is File &&
+              (entity.path.endsWith('.dart') || entity.path.endsWith('.md'))) {
             files.add(entity);
           }
         }

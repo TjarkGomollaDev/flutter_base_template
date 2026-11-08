@@ -1,14 +1,16 @@
-// Unit tests for comment, test, and architecture convention checkers.
+// Unit tests for comment, test, architecture, and markdown convention checkers.
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../tool/src/architecture_checker.dart';
 import '../../tool/src/comment_checker.dart';
+import '../../tool/src/markdown_checker.dart';
 import '../../tool/src/test_checker.dart';
 
 void main() {
   const commentChecker = CommentChecker();
   const testChecker = TestChecker();
   const architectureChecker = ArchitectureChecker();
+  const markdownChecker = MarkdownChecker();
 
   group('CommentChecker', () {
     test('accepts valid 1-line WHY comment', () {
@@ -333,6 +335,121 @@ class Repo {
       );
       expect(violations.length, 1);
       expect(violations.first.rule, 'dio_encapsulation');
+    });
+  });
+
+  group('MarkdownChecker', () {
+    test('accepts clean markdown file without horizontal rules', () {
+      const markdown = '''
+# Documentation
+
+## Overview
+
+Clean markdown document content without horizontal rules.
+
+| Feature | Status |
+| --- | --- |
+| Convention | Active |
+''';
+      final violations = markdownChecker.checkSource(
+        'docs/overview.md',
+        markdown,
+      );
+      expect(violations, <ConventionViolation>[]);
+    });
+
+    test('accepts YAML frontmatter with --- at start and end', () {
+      const markdown = '''
+---
+title: Overview
+category: Documentation
+---
+
+# Overview
+
+Document body content.
+''';
+      final violations = markdownChecker.checkSource(
+        'docs/overview.md',
+        markdown,
+      );
+      expect(violations, <ConventionViolation>[]);
+    });
+
+    test('accepts --- inside code blocks (``` and ~~~)', () {
+      const markdown = '''
+# Code Examples
+
+```yaml
+---
+name: example
+---
+```
+
+~~~markdown
+---
+~~~
+''';
+      final violations = markdownChecker.checkSource(
+        'docs/overview.md',
+        markdown,
+      );
+      expect(violations, <ConventionViolation>[]);
+    });
+
+    test('rejects standalone --- horizontal rules in body', () {
+      const markdown = '''
+# Section 1
+
+Some text.
+
+---
+
+# Section 2
+''';
+      final violations = markdownChecker.checkSource(
+        'docs/overview.md',
+        markdown,
+      );
+      expect(violations.length, 1);
+      expect(violations.first.rule, 'no_horizontal_rules');
+      expect(violations.first.line, 5);
+      expect(
+        violations.first.message,
+        "Horizontal rule divider '---' is forbidden. Structure content using headings (##, ###) instead.",
+      );
+      expect(violations.first.fixHint, 'Remove the horizontal divider line.');
+    });
+
+    test('rejects standalone *** or ___ dividers', () {
+      const markdown = '''
+# Section 1
+
+***
+
+Middle paragraph.
+
+___
+
+End paragraph.
+''';
+      final violations = markdownChecker.checkSource(
+        'docs/overview.md',
+        markdown,
+      );
+      expect(violations.length, 2);
+      expect(violations[0].rule, 'no_horizontal_rules');
+      expect(violations[0].line, 3);
+      expect(
+        violations[0].message,
+        "Horizontal rule divider '***' is forbidden. Structure content using headings (##, ###) instead.",
+      );
+      expect(violations[1].rule, 'no_horizontal_rules');
+      expect(violations[1].line, 7);
+      expect(
+        violations[1].message,
+        "Horizontal rule divider '___' is forbidden. Structure content using headings (##, ###) instead.",
+      );
     });
   });
 }

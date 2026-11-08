@@ -2,8 +2,6 @@
 
 This specification defines the Git branch, commit, pull request, and CI automation standards for all repositories created from this template. These rules are enforced locally via Git hooks and in CI via GitHub Actions.
 
----
-
 ## 1. Commit & PR Title Convention
 
 All commits and Pull Request titles must follow the strict Conventional Commits standard:
@@ -41,8 +39,6 @@ All commits and Pull Request titles must follow the strict Conventional Commits 
 - `refactor(routing): extract instance-scoped AppRouter`
 - `chore: bump dio dependency`
 
----
-
 ## 2. Branch Naming Standard
 
 All feature branches must follow this strict naming pattern:
@@ -55,8 +51,6 @@ All feature branches must follow this strict naming pattern:
 - **Regex:** `^(feat|fix|refactor|docs|test|chore|ci)/([0-9]+-)?[a-z0-9]+(-[a-z0-9]+)*$`
 - **Examples:** `feat/1-update-base-template`, `fix/42-theme-race-condition`, `chore/upgrade-dio`
 - **Direct commits to `main` (or `master`) are blocked** by the pre-commit hook and repository rules. Always work on a branch.
-
----
 
 ## 3. Automated Git Hooks (`.hooks/`)
 
@@ -72,8 +66,7 @@ This configures `core.hooksPath` to `.hooks` and sets executable permissions on 
 ### Hook Stages
 1. **`pre-commit` (< 2s):**
    - Blocks direct commits to the `main` branch.
-   - Runs `dart format` on staged `.dart` files.
-   - Runs `tool/check_conventions.dart` (validating comments, testing rules, and Clean Architecture layering) against the staged snapshot.
+   - Runs `dart format` on staged `.dart` files and `tool/check_conventions.dart` (validating comments, testing rules, Clean Architecture layering, and Markdown divider hygiene) against staged `.dart` and `.md` files.
 2. **`commit-msg` (< 50ms):**
    - Validates that the commit message conforms to the Conventional Commits regex.
    - Permits standard Git auto-generated messages (such as merge commits, cherry-picks, and `fixup!`).
@@ -83,8 +76,6 @@ This configures `core.hooksPath` to `.hooks` and sets executable permissions on 
 
 > [!CAUTION]
 > Never bypass Git hooks using `--no-verify` or `-n`. Bypassed commits will fail CI.
-
----
 
 ## 4. GitHub Actions & Pull Request Automation
 

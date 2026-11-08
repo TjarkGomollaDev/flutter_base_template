@@ -60,6 +60,7 @@ Every concept file in `docs/` must declare one `type:` from this closed vocabula
 * **Filenames:** Lowercase `kebab-case.md`.
 * **Indexing & Linking:** Every concept must be listed in `docs/index.md` and linked to/from at least one related concept using relative Markdown links (e.g. `[Application Overview](../overview.md)`).
 * **Sources & Footnotes:** Only add `sources:` entries in frontmatter when explicitly cited in prose with `[^id]` footnotes.
+* **No Horizontal Rule Dividers (`---`):** Standalone horizontal rule dividers (`---`, `***`, `___`) are strictly forbidden across all Markdown documents in the repository. Structure content cleanly using heading hierarchies (`#`, `##`, `###`) instead. The only permitted `---` lines are the opening and closing delimiters of YAML frontmatter headers at the top of concept files.
 
 # log.md Format
 

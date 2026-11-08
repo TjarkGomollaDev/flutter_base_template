@@ -2,8 +2,6 @@
 
 This specification outlines the testing strategy for the repository. Tests are fast, headless, and focused on verifying genuine application decisions rather than redundant boilerplate. Conformance is verified by `tool/src/test_checker.dart`.
 
----
-
 ## 1. Core Principle: Pin Real Decisions Only
 
 Write tests for code that makes decisions:
@@ -20,8 +18,6 @@ Write tests for code that makes decisions:
 - Plain DTOs without custom deserialization logic.
 - Pure dependency injection registration boilerplate.
 
----
-
 ## 2. Lowest Sufficient Layer
 
 Keep tests as close to the logic as possible to guarantee rapid feedback and maintainability:
@@ -34,8 +30,6 @@ Keep tests as close to the logic as possible to guarantee rapid feedback and mai
 
 ### Headless App Flows over Simulator Testing
 Instead of slow integration tests requiring simulators (`flutter drive`), critical UI journeys run inside `test/app_flow_test.dart` using `test/support/pump_app.dart`. This boots the full widget tree with `InMemorySharedPreferencesAsync`, resets dependency injection cleanly between tests, and executes in under 3 seconds on any developer machine or Linux CI runner.
-
----
 
 ## 3. Stable UI Finders
 
@@ -53,8 +47,6 @@ When finding widgets in `flutter_test`, choose finders in this strict priority o
 - **Never find by layout primitives:** Finding by `Padding`, `Container`, `SizedBox`, `Column`, `Row`, `Center`, or `Align` is strictly prohibited. Layouts change often without altering functionality.
 - **Avoid finding by localized copy when a key fits:** Localized strings (`context.l10n`) change across languages and copy revisions, leading to brittle tests.
 
----
-
 ## 4. Test Hygiene Rules
 
 The automated checker (`test_checker.dart`) enforces these mechanical rules:
@@ -69,8 +61,6 @@ The automated checker (`test_checker.dart`) enforces these mechanical rules:
   - **No real wall-clock delays:** Never call `sleep()` or un-mocked `Future.delayed()`. Use fake async or pump methods (`tester.pump()`, `tester.pumpAndSettle()`).
 - **Shared Helpers & Fakes:**
   - Place shared testing utilities, fake datasources, and mock setup routines under `test/support/`.
-
----
 
 ## 5. Convention Escape Hatch
 

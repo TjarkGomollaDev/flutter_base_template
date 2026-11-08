@@ -30,3 +30,6 @@ When editing or creating any Dart file in this repository:
    - No layout finders (`find.byType(Padding|Container|SizedBox|Column|Row|Center|...)`).
    - No unmanaged real waits (`Future.delayed`, `sleep`).
    - Must have non-trivial assertions (`expect`, `expectLater`, `verify`). Trivial matchers (`isNotNull`, `returnsNormally`, untyped `isA()`) alone are forbidden.
+
+4. **Documentation & Markdown Hygiene:**
+   - Standalone horizontal rule dividers (`---`, `***`, `___`) are strictly forbidden across all Markdown files. Structure content cleanly using Markdown headings (`#`, `##`, `###`). The only permitted `---` lines are YAML frontmatter delimiters at the top of concept files.

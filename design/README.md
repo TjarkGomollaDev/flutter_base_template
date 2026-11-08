@@ -2,8 +2,6 @@
 
 Any design files, exports, screenshots, or specifications for the application belong directly in this `design/` directory. AI agents and developers must follow the **Mandatory Flutter Theme Mapping Contract** below before building screens.
 
----
-
 ## Mandatory Flutter Theme Mapping Contract
 
 When an AI agent or developer translates design specifications into code, they must follow this 3-step contract in exact order. Skipping Step 1 and hardcoding visual tokens directly into screens is blocked by `architecture_checker.dart`.

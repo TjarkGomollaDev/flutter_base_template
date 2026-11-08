@@ -1,23 +1,14 @@
 # CRITICAL RULES — MUST FOLLOW
 
-## Responses
-- Keep responses concise and to the point unless asked otherwise.
-
-## Planning Mode
-- Always ask clarifying questions before designing or implementing.
-- Never assume design, tech stack, or features without explicit confirmation.
-- Use deep-dive sub-agents to assist with research and explore trade-offs.
-- Use deep-dive sub-agents to review all aspects of your plan before presenting to the user.
-
-## Change / Edit Mode
-- Never implement features yourself when possible — use sub-agents!
-- Identify changes from the plan that can be implemented in parallel, and delegate to sub-agents with disjoint file scopes.
-- When using sub-agents to implement features, act as a coordinator only.
-- Select model tier matching task complexity: premium models for complex coding, mid-tier models for simpler tasks or documentation.
-- After completing features (large or small), always run all verification commands to ensure code quality and build health before finishing.
+## Working in this Repo
+- Clarify ambiguous requirements before implementing; never assume design, features, or new dependencies.
+- Follow the existing patterns of the affected layer before introducing new ones.
+- Ship code, tests, and docs together: update tests and the OKF bundle in the same change.
 
 ## Verification Commands
-Run all verification commands before finishing:
+Hooks already format and convention-check every edited Dart file, so don't run these after each small edit.
+Run the full set only before committing or pushing, at the end of a larger multi-file task, or when asked.
+Exception: run `flutter gen-l10n` right after changing `.arb` files.
 
 | Task | Command | Purpose |
 | --- | --- | --- |

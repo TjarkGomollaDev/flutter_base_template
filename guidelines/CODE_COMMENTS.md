@@ -2,8 +2,6 @@
 
 This specification defines the comment standards enforced across the repository. The rules are verified deterministically by `tool/src/comment_checker.dart` and checked in Git hooks and CI pipelines.
 
----
-
 ## 1. Core Rule: Non-Obvious "WHY" Only
 
 - **Explain the WHY, never the WHAT:** Write a comment only when code needs context that cannot be expressed through clear variable, method, or class names. Explain platform quirks, non-obvious invariants, upstream bugs, workarounds, or why a standard alternative was deliberately rejected.
@@ -17,15 +15,11 @@ This specification defines the comment standards enforced across the repository.
 - **What changed and why this diff exists** -> **Commit message and Pull Request description**.
 - **Anything else** (what the code already says through clear naming and types) -> **Nowhere**. If deleting a comment would not confuse a competent developer, delete it.
 
----
-
 ## 2. Decorative Banners & Section Labels
 
 - **Forbidden across the codebase, with one exception:** Decorative banners (such as `// ===`, `// ---`, `/* ****** */`, or uneven `####...` banners) and section labels (e.g. `// theme`, `// getters`, `// properties`, `// dependencies`, `// lifecycle`) are strictly forbidden across the codebase, **with one exception**:
   - Root app wiring files (`lib/app_*.dart`, specifically `app_theme.dart`, `app_dependency_injection.dart`, and `app_constants.dart`) may use unified single-line section headers of the exact form `// #### <UPPERCASE SECTION> ####` (e.g. `// #### ALL COLORS ####`, `// #### STATE MANAGEMENT ####`).
 - Any banner outside `lib/app_*.dart` or any uneven `####...` banner is rejected by `tool/src/comment_checker.dart`.
-
----
 
 ## 3. Strict Rules for `///` Doc Comments
 
@@ -41,8 +35,6 @@ This specification defines the comment standards enforced across the repository.
   - Specific exceptions thrown and under what conditions.
   - Required preconditions or invocation order constraints.
 
----
-
 ## 4. Length, Grammar, and Formatting
 
 - **Language:** English only.
@@ -52,8 +44,6 @@ This specification defines the comment standards enforced across the repository.
   - `///` doc comment blocks: Maximum **4 lines** (1 summary sentence, 1 blank doc line, max 2 contract lines).
 - **Capitalization and punctuation:** Every comment block or paragraph must begin with an uppercase letter and terminate with a period `.` (unless the line ends with a URL or backtick code token).
 - **No prose em-dashes:** Do not use `—` or ` -- ` as sentence punctuation. Standard CLI flags like `--dart-define` remain allowed.
-
----
 
 ## 5. Allowed Tags
 
@@ -65,15 +55,11 @@ Only four comment prefix tags are permitted in the codebase:
 
 All other custom tags (e.g. `// NOTE:`, `// Test anchor:`, `// HACK:`, `// FIXME:`) are rejected by the checker.
 
----
-
 ## 6. No Commented-Out Code & Mandatory Ignore Justifications
 
 - **No commented-out code:** Do not commit commented-out code blocks or snippets. Rely on Git history for dead code.
 - **Justified linter ignores:** Every `// ignore:` or `// ignore_for_file:` directive requires a 1–2 line explanation directly above it detailing why the lint cannot or should not be satisfied.
 - **Bundle lints:** Bundle multiple ignores on a single line (e.g. `// ignore: avoid_catches_without_on_clauses, empty_catches`).
-
----
 
 ## Examples
 
