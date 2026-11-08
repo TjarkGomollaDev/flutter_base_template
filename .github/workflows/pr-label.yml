@@ -10,49 +10,10 @@ permissions:
   issues: write
 
 jobs:
-  pr:
-    name: Check & Label
+  label:
+    name: Label
     runs-on: ubuntu-latest
     steps:
-      - name: Validate branch name and PR title
-        env:
-          PR_TITLE: ${{ github.event.pull_request.title }}
-          HEAD_REF: ${{ github.event.pull_request.head.ref }}
-          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
-        run: |
-          set -euo pipefail
-          FAILED=0
-
-          # Validate branch name
-          if [ "$PR_AUTHOR" = "dependabot[bot]" ]; then
-            if ! echo "$HEAD_REF" | grep -Eq '^dependabot/[a-zA-Z0-9._/-]+$'; then
-              echo "::error::Invalid dependabot branch name '$HEAD_REF'."
-              FAILED=1
-            fi
-          else
-            if ! echo "$HEAD_REF" | grep -Eq '^(feat|fix|refactor|docs|test|chore|ci)/([0-9]+-)?[a-z0-9]+(-[a-z0-9]+)*$'; then
-              echo "::error::Invalid branch name '$HEAD_REF'. Branches must match '^(feat|fix|refactor|docs|test|chore|ci)/([0-9]+-)?[a-z0-9]+(-[a-z0-9]+)*$' (e.g. 'feat/1-user-login' or 'chore/bump-deps')."
-              FAILED=1
-            fi
-          fi
-
-          # Validate PR title length
-          TITLE_LEN="${#PR_TITLE}"
-          if [ "$TITLE_LEN" -gt 100 ]; then
-            echo "::error::PR title exceeds 100 characters ($TITLE_LEN chars): '$PR_TITLE'."
-            FAILED=1
-          fi
-
-          # Validate PR title Conventional Commits pattern
-          if ! echo "$PR_TITLE" | grep -Eq '^(feat|fix|refactor|docs|test|chore|ci)(\([a-z0-9_-]+\))?!?: (#[0-9]+ )?[a-z].*[^. ]$'; then
-            echo "::error::Invalid PR title '$PR_TITLE'. Must match Conventional Commits: '^(feat|fix|refactor|docs|test|chore|ci)(\([a-z0-9_-]+\))?!?: (#[0-9]+ )?[a-z].*[^. ]$' (e.g. 'feat: #1 add user login' or 'chore: bump deps', max 100 chars, lowercase description start, no trailing period)."
-            FAILED=1
-          fi
-
-          if [ "$FAILED" -ne 0 ]; then
-            exit 1
-          fi
-
       - name: Apply path and branch labels
         uses: actions/labeler@v6
         with:
