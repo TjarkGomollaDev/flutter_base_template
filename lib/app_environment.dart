@@ -1,9 +1,11 @@
 enum Environment { dev, staging, prod }
 
 class AppEnvironment {
-  // Can be set via flutter run --dart-define=ENVIRONMENT=prod
-  static const String environment =
-      String.fromEnvironment('ENVIRONMENT', defaultValue: 'dev');
+  // Override at build or run time via --dart-define=ENVIRONMENT=prod.
+  static const String environment = String.fromEnvironment(
+    'ENVIRONMENT',
+    defaultValue: 'dev',
+  );
 
   static Environment get currentEnvironment {
     switch (environment.toLowerCase()) {

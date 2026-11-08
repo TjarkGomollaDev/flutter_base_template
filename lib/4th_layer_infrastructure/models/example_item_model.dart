@@ -1,5 +1,5 @@
-import 'package:flutter_base_template/3rd_layer_domain/entities/example_item_entity.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_base_template/3rd_layer_domain/entities/example_item_entity.dart';
 
 class ExampleItemModel extends Equatable {
   final String id;
@@ -21,19 +21,11 @@ class ExampleItemModel extends Equatable {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'title': title,
-      'description': description,
-    };
+    return {'id': id, 'title': title, 'description': description};
   }
 
   ExampleItemEntity toDomain() {
-    return ExampleItemEntity(
-      id: id,
-      title: title,
-      description: description,
-    );
+    return ExampleItemEntity(id: id, title: title, description: description);
   }
 
   factory ExampleItemModel.fromDomain(ExampleItemEntity entity) {

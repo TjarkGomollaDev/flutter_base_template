@@ -8,7 +8,9 @@ sealed class LocaleEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-final class LocaleEventLoadSettings extends LocaleEvent {}
+final class LocaleEventLoadSettings extends LocaleEvent {
+  const LocaleEventLoadSettings();
+}
 
 final class LocaleEventChangeLocale extends LocaleEvent {
   final String? languageCode;

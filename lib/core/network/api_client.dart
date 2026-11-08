@@ -1,47 +1,50 @@
 import 'package:dio/dio.dart';
-import 'package:logger/logger.dart';
-import 'package:flutter_base_template/core/exceptions/api_exceptions.dart';
 import 'package:flutter_base_template/app_environment.dart';
+import 'package:flutter_base_template/core/exceptions/api_exceptions.dart';
+import 'package:logger/logger.dart';
 
 class ApiClient {
   final Dio _dio;
 
   ApiClient({Dio? dio, required Logger logger})
-      : _dio = dio ??
-            Dio(
-              BaseOptions(
-                baseUrl: AppEnvironment.baseApiUrl,
-                connectTimeout: const Duration(seconds: 10),
-                receiveTimeout: const Duration(seconds: 10),
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Accept': 'application/json',
-                },
-              ),
-            ) {
+    : _dio =
+          dio ??
+          Dio(
+            BaseOptions(
+              baseUrl: AppEnvironment.baseApiUrl,
+              connectTimeout: const Duration(seconds: 10),
+              receiveTimeout: const Duration(seconds: 10),
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+              },
+            ),
+          ) {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
           logger.d(
-              'API Request: ${options.method} ${options.uri}\nData: ${options.data}');
+            'API Request: ${options.method} ${options.uri}\nData: ${options.data}',
+          );
           return handler.next(options);
         },
         onResponse: (response, handler) {
           logger.d(
-              'API Response: ${response.statusCode} ${response.requestOptions.uri}\nData: ${response.data}');
+            'API Response: ${response.statusCode} ${response.requestOptions.uri}\nData: ${response.data}',
+          );
           return handler.next(response);
         },
         onError: (DioException e, handler) {
           logger.e(
-              'API Error: ${e.message}\nUri: ${e.requestOptions.uri}\nResponse: ${e.response?.data}',
-              error: e);
+            'API Error: ${e.message}\nUri: ${e.requestOptions.uri}\nResponse: ${e.response?.data}',
+            error: e,
+          );
           return handler.next(e);
         },
       ),
     );
   }
 
-  /// Central GET request.
   Future<Response<T>> get<T>(
     String path, {
     Map<String, dynamic>? queryParameters,
@@ -59,10 +62,9 @@ class ApiClient {
     }
   }
 
-  /// Central POST request.
   Future<Response<T>> post<T>(
     String path, {
-    dynamic data,
+    Object? data,
     Map<String, dynamic>? queryParameters,
     Options? options,
   }) async {
@@ -79,10 +81,9 @@ class ApiClient {
     }
   }
 
-  /// Central PUT request.
   Future<Response<T>> put<T>(
     String path, {
-    dynamic data,
+    Object? data,
     Map<String, dynamic>? queryParameters,
     Options? options,
   }) async {
@@ -99,10 +100,9 @@ class ApiClient {
     }
   }
 
-  /// Central DELETE request.
   Future<Response<T>> delete<T>(
     String path, {
-    dynamic data,
+    Object? data,
     Map<String, dynamic>? queryParameters,
     Options? options,
   }) async {

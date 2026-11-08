@@ -37,6 +37,6 @@ class AppLocalizationsDe extends AppLocalizations {
       'Es tut uns leid, diese Seite existiert nicht oder ein Fehler ist aufgetreten.\nBitte starte die App neu.';
 
   @override
-  String get errorUnknow =>
+  String get errorUnknown =>
       'Unbekanntes Problem. Bitte versuche es erneut oder wende dich an unseren Support.';
 }

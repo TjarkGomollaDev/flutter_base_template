@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  flutter:
+    name: Flutter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+          pub-cache-key: "flutter-pub-:os:-:channel:-:version:-:arch:-${{ hashFiles('pubspec.lock') }}"
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Verify l10n generation
+        run: |
+          flutter gen-l10n
+          git diff --exit-code lib/l10n
+
+      - name: Verify Dart formatting
+        run: dart format --output=none --set-exit-if-changed lib test tool
+
+      - name: Analyze Dart code
+        run: flutter analyze --fatal-infos
+
+      - name: Check architecture and code conventions
+        run: dart run tool/check_conventions.dart
+
+      - name: Run tests with coverage
+        run: flutter test --coverage --reporter expanded
+
+  docs:
+    name: Docs
+    runs-on: ubuntu-latest
+    env:
+      BUNDLE_GEMFILE: docs/meta/Gemfile
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+
+      - name: Install OKF gem
+        run: bundle install
+
+      - name: Validate and lint OKF bundle
+        run: |
+          bundle exec okf validate docs
+          bundle exec okf lint docs --fail-on warn

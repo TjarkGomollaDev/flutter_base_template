@@ -8,8 +8,14 @@ sealed class ThemeEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class ThemeEventLoadSettings extends ThemeEvent {}
+final class ThemeEventLoadSettings extends ThemeEvent {
+  const ThemeEventLoadSettings();
+}
 
-class ThemeEventChangeUseSystemTheme extends ThemeEvent {}
+final class ThemeEventChangeUseSystemTheme extends ThemeEvent {
+  const ThemeEventChangeUseSystemTheme();
+}
 
-class ThemeEventChangeThemeMode extends ThemeEvent {}
+final class ThemeEventChangeThemeMode extends ThemeEvent {
+  const ThemeEventChangeThemeMode();
+}
