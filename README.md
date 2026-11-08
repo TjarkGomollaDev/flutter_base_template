@@ -4,8 +4,6 @@ A modern, production-grade Flutter template designed for **Clean Architecture** 
 
 This template provides a zero-friction, highly automated starting point for turning ideas into clean, tested apps with AI coding assistants without sacrificing architectural discipline or code quality.
 
----
-
 ## Highlights
 
 - **Strict 4-Layer Clean Architecture:** Hard separation between Presentation, Application (BLoC), Domain (pure Dart entities & interfaces), and Infrastructure (DTO models, datasources, API client).
@@ -13,8 +11,6 @@ This template provides a zero-friction, highly automated starting point for turn
 - **Official Dart MCP Server Support:** Configured out of the box for deep semantic code intelligence and auto-navigation via Dart's Model Context Protocol server.
 - **Fast Headless App-Flow Testing:** Full app and tab navigation flows run in under 3 seconds in the host Dart VM using in-memory dependencies — zero simulator required for CI or local smoke testing.
 - **Zero-Dependency Git Hooks & GitHub Actions CI:** Automated branch naming, conventional commit checks, staged code formatting, Clean Architecture import validation, OKF knowledge bundle linting, and PR auto-labeling.
-
----
 
 ## Quickstart for a New Project
 
