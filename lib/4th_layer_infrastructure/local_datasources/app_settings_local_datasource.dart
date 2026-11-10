@@ -22,12 +22,12 @@ class AppSettingsLocalDatasource
   }
 
   @override
-  Future<void> setThemeMode({required bool value}) async {
+  Future<void> setIsLightMode({required bool value}) async {
     await _sharedPreferencesAsync.setBool(_storageThemeMode, value);
   }
 
   @override
-  Future<bool> getThemeMode() async {
+  Future<bool> getIsLightMode() async {
     return (await _sharedPreferencesAsync.getBool(_storageThemeMode)) ?? true;
   }
 

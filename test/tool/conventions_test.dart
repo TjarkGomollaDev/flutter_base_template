@@ -2,6 +2,7 @@
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../tool/src/architecture_checker.dart';
+import '../../tool/src/checker_common.dart';
 import '../../tool/src/comment_checker.dart';
 import '../../tool/src/markdown_checker.dart';
 import '../../tool/src/test_checker.dart';
@@ -146,18 +147,85 @@ final int y = 2;
       },
     );
 
-    test('validates convention-ignore format', () {
+    test(
+      'accepts stacked linter ignore directives with preceding justification',
+      () {
+        const stacked = '''
+// Explains why both ignores are necessary for this boundary call.
+// ignore: avoid_dynamic_calls
+// ignore: argument_type_not_assignable
+final dynamic result = target.execute();
+''';
+        final violations = commentChecker.checkSource(
+          'lib/core/debug.dart',
+          stacked,
+        );
+        expect(violations, <ConventionViolation>[]);
+      },
+    );
+
+    test('accepts exclamation mark as valid terminal punctuation', () {
+      const code = '''
+// Critical safety requirement must not be violated!
+final int maxRetries = 3;
+''';
+      final violations = commentChecker.checkSource(
+        'lib/core/safety.dart',
+        code,
+      );
+      expect(violations, <ConventionViolation>[]);
+    });
+
+    test('validates convention-ignore and convention-ignore-file format', () {
       const invalid = '''
 // convention-ignore:
 final int x = 1;
+// convention-ignore-file:
+final int y = 2;
 ''';
       final violations = commentChecker.checkSource(
         'lib/core/test.dart',
         invalid,
       );
-      expect(violations.length, 1);
-      expect(violations.first.rule, 'convention_ignore_format');
+      expect(violations.length, 2);
+      expect(violations[0].rule, 'convention_ignore_format');
+      expect(violations[1].rule, 'convention_ignore_format');
     });
+
+    test('convention-ignore-file suppresses rules for entire file', () {
+      const source = '''
+// convention-ignore-file: comment_capitalization Legacy migration in progress.
+// lowercase comment on line 2.
+final int a = 1;
+// lowercase comment on line 4.
+final int b = 2;
+''';
+      final violations = commentChecker.checkSource(
+        'lib/core/test.dart',
+        source,
+      );
+      expect(violations, <ConventionViolation>[]);
+    });
+
+    test(
+      'line-level convention-ignore does not suppress rules for subsequent lines',
+      () {
+        const source = '''
+// convention-ignore: comment_capitalization Single line exemption.
+// lowercase comment on line 2.
+final int a = 1;
+// lowercase comment on line 4.
+final int b = 2;
+''';
+        final violations = commentChecker.checkSource(
+          'lib/core/test.dart',
+          source,
+        );
+        expect(violations.length, 1);
+        expect(violations.first.rule, 'comment_capitalization');
+        expect(violations.first.line, 4);
+      },
+    );
   });
 
   group('TestChecker', () {
@@ -242,9 +310,9 @@ void main() {
 
     test('allows convention-ignore for real wait when justified', () {
       const code = '''
-// convention-ignore: no_real_waits Required for external hardware integration test
 void main() {
   test('performs hardware sync', () async {
+    // convention-ignore: no_real_waits Required for external hardware integration test
     await Future<void>.delayed(const Duration(seconds: 1));
     expect(1, equals(1));
   });
@@ -252,6 +320,46 @@ void main() {
 ''';
       final violations = testChecker.checkSource('test/wait_test.dart', code);
       expect(violations, <ConventionViolation>[]);
+    });
+
+    test('rejects control flow statements in test bodies', () {
+      const code = '''
+void main() {
+  test('processes list items', () {
+    for (var i = 0; i < 3; i++) {
+      expect(i, equals(0));
+    }
+  });
+}
+''';
+      final violations = testChecker.checkSource('test/flow_test.dart', code);
+      expect(violations.length, 1);
+      expect(violations.first.rule, 'no_control_flow_in_tests');
+    });
+
+    test('validates assertions in arrow syntax tests', () {
+      const codeWithoutAssertion = '''
+void main() {
+  test('invokes service', () => service.execute());
+}
+''';
+      final violations = testChecker.checkSource(
+        'test/arrow_test.dart',
+        codeWithoutAssertion,
+      );
+      expect(violations.length, 1);
+      expect(violations.first.rule, 'missing_assertion');
+
+      const codeWithAssertion = '''
+void main() {
+  test('verifies response', () => expect(service.value, equals(42)));
+}
+''';
+      final validViolations = testChecker.checkSource(
+        'test/arrow_test.dart',
+        codeWithAssertion,
+      );
+      expect(validViolations, <ConventionViolation>[]);
     });
   });
 
@@ -389,6 +497,27 @@ name: example
 ~~~markdown
 ---
 ~~~
+''';
+      final violations = markdownChecker.checkSource(
+        'docs/overview.md',
+        markdown,
+      );
+      expect(violations, <ConventionViolation>[]);
+    });
+
+    test('accepts nested code fences without premature closure', () {
+      const markdown = '''
+# Documentation Guide
+
+````markdown
+Here is an example:
+
+```yaml
+---
+title: Nested Example
+---
+```
+````
 ''';
       final violations = markdownChecker.checkSource(
         'docs/overview.md',

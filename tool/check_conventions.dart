@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'src/architecture_checker.dart';
+import 'src/checker_common.dart';
 import 'src/comment_checker.dart';
 import 'src/markdown_checker.dart';
 import 'src/test_checker.dart';
@@ -30,6 +31,9 @@ void main(List<String> args) {
       'design',
       'README.md',
       'AGENTS.md',
+      'CLAUDE.md',
+      'GEMINI.md',
+      '.github/pull_request_template.md',
     ]);
   }
 
@@ -43,7 +47,7 @@ void main(List<String> args) {
 
   for (final file in files) {
     final relativePath = _normalizeRelativePath(rootDir, file.path);
-    if (_isGenerated(relativePath)) continue;
+    if (isGeneratedPath(relativePath)) continue;
 
     final content = file.readAsStringSync();
 
@@ -72,16 +76,6 @@ void main(List<String> args) {
   }
 
   exit(0);
-}
-
-bool _isGenerated(String path) {
-  return path.contains('lib/l10n/app_localizations') ||
-      path.endsWith('.g.dart') ||
-      path.endsWith('.freezed.dart') ||
-      path.contains('/.dart_tool/') ||
-      path.startsWith('.dart_tool/') ||
-      path.contains('/build/') ||
-      path.startsWith('build/');
 }
 
 List<File> _collectFiles(String rootDir, List<String> targets) {

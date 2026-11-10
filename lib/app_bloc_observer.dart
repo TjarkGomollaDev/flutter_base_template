@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 
 class AppBlocObserver extends BlocObserver {
@@ -9,12 +10,14 @@ class AppBlocObserver extends BlocObserver {
   @override
   void onEvent(Bloc<dynamic, dynamic> bloc, Object? event) {
     super.onEvent(bloc, event);
+    if (!kDebugMode) return;
     logger.d('BlocEvent: ${bloc.runtimeType} $event');
   }
 
   @override
   void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
     super.onChange(bloc, change);
+    if (!kDebugMode) return;
     logger.d(
       'BlocChange: ${bloc.runtimeType}\nCurrent: ${change.currentState}\nNext: ${change.nextState}',
     );
@@ -26,6 +29,7 @@ class AppBlocObserver extends BlocObserver {
     Transition<dynamic, dynamic> transition,
   ) {
     super.onTransition(bloc, transition);
+    if (!kDebugMode) return;
     logger.d(
       'BlocTransition: ${bloc.runtimeType} ${transition.event.runtimeType}',
     );

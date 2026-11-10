@@ -1,25 +1,7 @@
 // Pure-Dart comment convention checker with quote-aware scanning.
 import 'dart:io';
 
-// Representation of a convention violation.
-class ConventionViolation {
-  const ConventionViolation({
-    required this.rule,
-    required this.filePath,
-    required this.line,
-    required this.message,
-    required this.fixHint,
-  });
-
-  final String rule;
-  final String filePath;
-  final int line;
-  final String message;
-  final String fixHint;
-
-  @override
-  String toString() => '[$rule] $filePath:$line: $message ($fixHint)';
-}
+import 'checker_common.dart';
 
 // Scanned comment token extracted from Dart source code.
 class _CommentToken {
@@ -42,7 +24,9 @@ class _CommentToken {
   bool get isIgnoreDirective =>
       raw.startsWith('// ignore:') || raw.startsWith('// ignore_for_file:');
 
-  bool get isConventionIgnore => raw.startsWith('// convention-ignore:');
+  bool get isConventionIgnore =>
+      raw.startsWith('// convention-ignore:') ||
+      raw.startsWith('// convention-ignore-file:');
 
   bool get isDartFormatDirective =>
       raw.startsWith('// dart format off') ||
@@ -67,7 +51,7 @@ class CommentChecker {
   // Runs all comment checks on the provided file.
   List<ConventionViolation> checkFile(String filePath, [String? content]) {
     final normalized = filePath.replaceAll(r'\', '/');
-    if (_isGenerated(normalized)) {
+    if (isGeneratedPath(normalized)) {
       return const <ConventionViolation>[];
     }
 
@@ -81,14 +65,7 @@ class CommentChecker {
     final violations = <ConventionViolation>[];
 
     final ignores = _collectIgnores(tokens);
-    bool isIgnored(String rule, int line) {
-      final fileRules = ignores[-1];
-      if (fileRules != null && fileRules.contains(rule)) {
-        return true;
-      }
-      final lineRules = ignores[line];
-      return lineRules != null && lineRules.contains(rule);
-    }
+    bool isIgnored(String rule, int line) => ignores.isIgnored(rule, line);
 
     _checkConventionIgnoreFormat(tokens, filePath, violations);
     _checkDocumentedIgnores(tokens, filePath, violations, isIgnored);
@@ -99,16 +76,6 @@ class CommentChecker {
     _checkParagraphs(tokens, filePath, violations, isIgnored);
 
     return violations;
-  }
-
-  bool _isGenerated(String path) {
-    return path.contains('lib/l10n/app_localizations') ||
-        path.endsWith('.g.dart') ||
-        path.endsWith('.freezed.dart') ||
-        path.contains('/.dart_tool/') ||
-        path.startsWith('.dart_tool/') ||
-        path.contains('/build/') ||
-        path.startsWith('build/');
   }
 
   // Parses source into comment tokens using quote-aware character scanning.
@@ -265,22 +232,20 @@ class CommentChecker {
     return tokens;
   }
 
-  Map<int, Set<String>> _collectIgnores(List<_CommentToken> tokens) {
-    final result = <int, Set<String>>{};
-    final regex = RegExp(
-      r'^//\s*convention-ignore:\s*([a-zA-Z0-9_-]+)\s+(\S.*)$',
-    );
+  IgnoredRules _collectIgnores(List<_CommentToken> tokens) {
+    final result = IgnoredRules();
 
     for (final token in tokens) {
-      final match = regex.firstMatch(token.raw);
-      if (match != null) {
-        final rule = match.group(1)!;
-        // Near top of file before line 25 acts as file-level exemption.
-        if (token.line < 25) {
-          result.putIfAbsent(-1, () => <String>{}).add(rule);
-        }
-        result.putIfAbsent(token.line, () => <String>{}).add(rule);
-        result.putIfAbsent(token.line + 1, () => <String>{}).add(rule);
+      final fileMatch = conventionIgnoreFileRegex.firstMatch(token.raw);
+      if (fileMatch != null) {
+        result.addFileIgnore(fileMatch.group(1)!);
+        continue;
+      }
+      final lineMatch = conventionIgnoreLineRegex.firstMatch(token.raw);
+      if (lineMatch != null) {
+        final rule = lineMatch.group(1)!;
+        result.addLineIgnore(token.line, rule);
+        result.addLineIgnore(token.line + 1, rule);
       }
     }
     return result;
@@ -291,12 +256,9 @@ class CommentChecker {
     String filePath,
     List<ConventionViolation> violations,
   ) {
-    final validRegex = RegExp(
-      r'^//\s*convention-ignore:\s*([a-zA-Z0-9_-]+)\s+(\S.*)$',
-    );
     for (final token in tokens) {
       if (token.raw.startsWith('// convention-ignore:') &&
-          !validRegex.hasMatch(token.raw)) {
+          !conventionIgnoreLineRegex.hasMatch(token.raw)) {
         violations.add(
           ConventionViolation(
             rule: 'convention_ignore_format',
@@ -305,6 +267,18 @@ class CommentChecker {
             message:
                 'convention-ignore must specify both a rule and a justification reason',
             fixHint: 'Use: // convention-ignore: <rule> <reason>',
+          ),
+        );
+      } else if (token.raw.startsWith('// convention-ignore-file:') &&
+          !conventionIgnoreFileRegex.hasMatch(token.raw)) {
+        violations.add(
+          ConventionViolation(
+            rule: 'convention_ignore_format',
+            filePath: filePath,
+            line: token.line,
+            message:
+                'convention-ignore-file must specify both a rule and a justification reason',
+            fixHint: 'Use: // convention-ignore-file: <rule> <reason>',
           ),
         );
       }
@@ -326,7 +300,11 @@ class CommentChecker {
       if (!token.isIgnoreDirective) continue;
       if (isIgnored('undocumented_ignore', token.line)) continue;
 
-      final prev = tokenByLine[token.line - 1];
+      var targetLine = token.line - 1;
+      while (tokenByLine[targetLine]?.isDirective == true) {
+        targetLine--;
+      }
+      final prev = tokenByLine[targetLine];
       final isDocumented =
           prev != null &&
           !prev.isDirective &&
@@ -582,16 +560,19 @@ class CommentChecker {
       if (firstLineText.isNotEmpty &&
           !isIgnored('comment_capitalization', startLine)) {
         final firstChar = firstLineText[0];
+        final code = firstChar.codeUnitAt(0);
+        final isDigit = code >= 48 && code <= 57;
+        final isUpper = code >= 65 && code <= 90;
         final exempt =
             firstChar == '`' ||
             firstChar == '[' ||
             firstChar == '@' ||
             firstChar == '{' ||
-            RegExp(r'[0-9]').hasMatch(firstChar) ||
+            isDigit ||
             firstLineText.startsWith('http://') ||
             firstLineText.startsWith('https://');
 
-        if (!exempt && !RegExp(r'[A-Z]').hasMatch(firstChar)) {
+        if (!exempt && !isUpper) {
           violations.add(
             ConventionViolation(
               rule: 'comment_capitalization',
@@ -612,6 +593,7 @@ class CommentChecker {
         final validPunctuation =
             lastChar == '.' ||
             lastChar == '?' ||
+            lastChar == '!' ||
             lastChar == ':' ||
             lastChar == '`' ||
             lastChar == ')' ||
@@ -662,7 +644,7 @@ class CommentChecker {
     for (final token in tokens) {
       if (token.isDirective || token.isBanner) {
         flush();
-        prevLine = token.line;
+        prevLine = -1;
         continue;
       }
 
@@ -684,11 +666,11 @@ class CommentChecker {
         if (text.trim().isEmpty) {
           flush();
           inDoc = true;
-          prevLine = token.line;
+          prevLine = -1;
           continue;
         }
 
-        if (!inDoc || token.line != prevLine + 1) {
+        if (current.isEmpty || !inDoc || token.line != prevLine + 1) {
           flush();
           startLine = token.line;
           inDoc = true;
@@ -712,11 +694,11 @@ class CommentChecker {
             lines: <String>[token.text],
           ),
         );
-        prevLine = token.line;
+        prevLine = -1;
         continue;
       }
 
-      if (token.line != prevLine + 1) {
+      if (current.isEmpty || token.line != prevLine + 1) {
         flush();
         startLine = token.line;
       }

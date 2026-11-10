@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_template/2nd_layer_application/application/locale_bloc/locale_bloc.dart';
 import 'package:flutter_base_template/2nd_layer_application/application/theme_bloc/theme_bloc.dart';
@@ -16,7 +17,9 @@ final sl = dependency_injection.sl;
 Future<void> main() async {
   settings.init();
   await dependency_injection.init();
-  Bloc.observer = AppBlocObserver(logger: sl());
+  if (kDebugMode) {
+    Bloc.observer = AppBlocObserver(logger: sl());
+  }
   runApp(const MyApp());
 }
 
@@ -38,7 +41,7 @@ class MyApp extends StatelessWidget {
             darkTheme: AppTheme.appThemeDark,
             themeMode: themeState.useSystemTheme
                 ? ThemeMode.system
-                : (themeState.themeMode ? ThemeMode.light : ThemeMode.dark),
+                : (themeState.isLightMode ? ThemeMode.light : ThemeMode.dark),
             locale: localeState.locale,
             routerConfig: sl<AppRouter>().router,
             localizationsDelegates: AppLocalizations.localizationsDelegates,

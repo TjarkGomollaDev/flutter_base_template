@@ -10,7 +10,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   final InterfaceAppSettingsLocalDatasource _appSettingsLocalDatasource;
 
   ThemeBloc({required this._appSettingsLocalDatasource})
-    : super(const ThemeState._(useSystemTheme: true, themeMode: true)) {
+    : super(const ThemeState._(useSystemTheme: true, isLightMode: true)) {
     on<ThemeEvent>(
       _onEvent,
       transformer: (events, mapper) => events.asyncExpand(mapper),
@@ -23,9 +23,12 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
       case ThemeEventLoadSettings():
         final useSystemTheme = await _appSettingsLocalDatasource
             .getUseSystemTheme();
-        final themeMode = await _appSettingsLocalDatasource.getThemeMode();
+        final isLightMode = await _appSettingsLocalDatasource.getIsLightMode();
         emit(
-          state.copyWith(useSystemTheme: useSystemTheme, themeMode: themeMode),
+          state.copyWith(
+            useSystemTheme: useSystemTheme,
+            isLightMode: isLightMode,
+          ),
         );
       case ThemeEventChangeUseSystemTheme():
         final nextUseSystemTheme = !state.useSystemTheme;
@@ -34,9 +37,11 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
         );
         emit(state.copyWith(useSystemTheme: nextUseSystemTheme));
       case ThemeEventChangeThemeMode():
-        final nextThemeMode = !state.themeMode;
-        await _appSettingsLocalDatasource.setThemeMode(value: nextThemeMode);
-        emit(state.copyWith(themeMode: nextThemeMode));
+        final nextIsLightMode = !state.isLightMode;
+        await _appSettingsLocalDatasource.setIsLightMode(
+          value: nextIsLightMode,
+        );
+        emit(state.copyWith(isLightMode: nextIsLightMode));
     }
   }
 }
