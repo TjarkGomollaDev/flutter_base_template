@@ -39,9 +39,11 @@ class LocaleBloc extends Bloc<LocaleEvent, LocaleState> {
   }
 
   Locale? _localeFromCodeOrNull(String? code) {
-    if (code == null) return null;
-    if (code == 'de') return const Locale('de');
-    if (code == 'en') return const Locale('en');
-    return null;
+    if (code == null || code.trim().isEmpty) return null;
+    final parts = code.split(RegExp('[-_]'));
+    if (parts.length > 1) {
+      return Locale(parts[0], parts[1]);
+    }
+    return Locale(parts[0]);
   }
 }

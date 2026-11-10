@@ -1,7 +1,7 @@
 // Pure-Dart markdown convention checker.
 import 'dart:io';
 
-import 'comment_checker.dart';
+import 'checker_common.dart';
 
 // Verifies markdown structure and prevents forbidden formatting constructs.
 class MarkdownChecker {
@@ -10,7 +10,7 @@ class MarkdownChecker {
   // Runs all markdown checks on the provided file.
   List<ConventionViolation> checkFile(String filePath, [String? content]) {
     final normalized = filePath.replaceAll(r'\', '/');
-    if (_isGenerated(normalized) || !normalized.endsWith('.md')) {
+    if (isGeneratedPath(normalized) || !normalized.endsWith('.md')) {
       return const <ConventionViolation>[];
     }
 
@@ -56,11 +56,16 @@ class MarkdownChecker {
           continue;
         }
       } else {
-        if (fenceMarker != null &&
-            trimmed.startsWith(fenceMarker) &&
-            trimmed.length >= fenceMarker.length) {
-          inCodeBlock = false;
-          fenceMarker = null;
+        if (fenceMarker != null) {
+          final closingMatch = _closingCodeFenceRegex.firstMatch(trimmed);
+          if (closingMatch != null) {
+            final closingMarker = closingMatch.group(1)!;
+            if (closingMarker[0] == fenceMarker[0] &&
+                closingMarker.length >= fenceMarker.length) {
+              inCodeBlock = false;
+              fenceMarker = null;
+            }
+          }
         }
         continue;
       }
@@ -97,9 +102,5 @@ final RegExp _horizontalRuleRegex = RegExp(
 // Regex matching fenced code block markers with at least 3 characters.
 final RegExp _codeFenceRegex = RegExp(r'^(`{3,}|~{3,})');
 
-bool _isGenerated(String path) {
-  return path.contains('/.dart_tool/') ||
-      path.startsWith('.dart_tool/') ||
-      path.contains('/build/') ||
-      path.startsWith('build/');
-}
+// Regex matching closing fenced code block markers with optional whitespace only.
+final RegExp _closingCodeFenceRegex = RegExp(r'^(`{3,}|~{3,})\s*$');

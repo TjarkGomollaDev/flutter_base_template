@@ -1,4 +1,4 @@
-name: PR
+name: PR Check
 
 on:
   pull_request_target:
@@ -23,12 +23,12 @@ jobs:
 
           # Validate branch name
           if [ "$PR_AUTHOR" = "dependabot[bot]" ]; then
-            if ! echo "$HEAD_REF" | grep -Eq '^dependabot/[a-zA-Z0-9._/-]+$'; then
+            if ! printf '%s\n' "$HEAD_REF" | grep -Eq '^dependabot/[a-zA-Z0-9._/-]+$'; then
               echo "::error::Invalid dependabot branch name '$HEAD_REF'."
               FAILED=1
             fi
           else
-            if ! echo "$HEAD_REF" | grep -Eq '^(feat|fix|refactor|docs|test|chore|ci)/([0-9]+-)?[a-z0-9]+(-[a-z0-9]+)*$'; then
+            if ! printf '%s\n' "$HEAD_REF" | grep -Eq '^(feat|fix|refactor|docs|test|chore|ci)/([0-9]+-)?[a-z0-9]+(-[a-z0-9]+)*$'; then
               echo "::error::Invalid branch name '$HEAD_REF'. Branches must match '^(feat|fix|refactor|docs|test|chore|ci)/([0-9]+-)?[a-z0-9]+(-[a-z0-9]+)*$' (e.g. 'feat/1-user-login' or 'chore/bump-deps')."
               FAILED=1
             fi
@@ -42,9 +42,16 @@ jobs:
           fi
 
           # Validate PR title Conventional Commits pattern
-          if ! echo "$PR_TITLE" | grep -Eq '^(feat|fix|refactor|docs|test|chore|ci)(\([a-z0-9_-]+\))?!?: (#[0-9]+ )?[a-z].*[^. ]$'; then
-            echo "::error::Invalid PR title '$PR_TITLE'. Must match Conventional Commits: '^(feat|fix|refactor|docs|test|chore|ci)(\([a-z0-9_-]+\))?!?: (#[0-9]+ )?[a-z].*[^. ]$' (e.g. 'feat: #1 add user login' or 'chore: bump deps', max 100 chars, lowercase description start, no trailing period)."
-            FAILED=1
+          if [ "$PR_AUTHOR" = "dependabot[bot]" ]; then
+            if ! printf '%s\n' "$PR_TITLE" | grep -Eq '^(feat|fix|refactor|docs|test|chore|ci)(\([a-z0-9_-]+\))?!?: [a-zA-Z].*[^. ]$'; then
+              echo "::error::Invalid dependabot PR title '$PR_TITLE'."
+              FAILED=1
+            fi
+          else
+            if ! printf '%s\n' "$PR_TITLE" | grep -Eq '^(feat|fix|refactor|docs|test|chore|ci)(\([a-z0-9_-]+\))?!?: (#[0-9]+ )?[a-z].*[^. ]$'; then
+              echo "::error::Invalid PR title '$PR_TITLE'. Must match Conventional Commits: '^(feat|fix|refactor|docs|test|chore|ci)(\([a-z0-9_-]+\))?!?: (#[0-9]+ )?[a-z].*[^. ]$' (e.g. 'feat: #1 add user login' or 'chore: bump deps', max 100 chars, lowercase description start, no trailing period)."
+              FAILED=1
+            fi
           fi
 
           if [ "$FAILED" -ne 0 ]; then

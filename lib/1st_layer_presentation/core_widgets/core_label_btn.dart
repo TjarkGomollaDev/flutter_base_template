@@ -18,24 +18,28 @@ class CoreLabelBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: callback,
-      child: UnconstrainedBox(
-        child: Container(
-          height: AppConstants.LABEL_BTN_HEIGHT,
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppConstants.SPACE_HORIZONTAL_M,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppConstants.RADIUS_XL),
-            color: color ?? context.colorPalette.gray6,
-          ),
-          child: Center(
-            child: Text(
-              name,
-              style: context.textTheme.labelMedium!.copyWith(
-                color: textColor ?? context.colorPalette.onPrimary,
+    return Semantics(
+      button: true,
+      label: name,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: callback,
+        child: UnconstrainedBox(
+          child: Container(
+            height: AppConstants.LABEL_BTN_HEIGHT,
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppConstants.SPACE_HORIZONTAL_M,
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(AppConstants.RADIUS_XL),
+              color: color ?? context.colorPalette.gray6,
+            ),
+            child: Center(
+              child: Text(
+                name,
+                style: context.textTheme.labelMedium!.copyWith(
+                  color: textColor ?? context.colorPalette.onPrimary,
+                ),
               ),
             ),
           ),

@@ -3,22 +3,22 @@ part of 'theme_bloc.dart';
 @immutable
 class ThemeState extends Equatable {
   final bool useSystemTheme;
-  final bool themeMode;
+  final bool isLightMode;
 
   const factory ThemeState({
     required bool useSystemTheme,
-    required bool themeMode,
+    required bool isLightMode,
   }) = ThemeState._;
 
-  const ThemeState._({required this.useSystemTheme, required this.themeMode});
+  const ThemeState._({required this.useSystemTheme, required this.isLightMode});
 
-  ThemeState copyWith({bool? useSystemTheme, bool? themeMode}) {
+  ThemeState copyWith({bool? useSystemTheme, bool? isLightMode}) {
     return ThemeState._(
       useSystemTheme: useSystemTheme ?? this.useSystemTheme,
-      themeMode: themeMode ?? this.themeMode,
+      isLightMode: isLightMode ?? this.isLightMode,
     );
   }
 
   @override
-  List<Object?> get props => [useSystemTheme, themeMode];
+  List<Object?> get props => [useSystemTheme, isLightMode];
 }

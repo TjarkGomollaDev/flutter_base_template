@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_base_template/2nd_layer_application/application/locale_bloc/locale_bloc.dart';
 import 'package:flutter_base_template/2nd_layer_application/application/theme_bloc/theme_bloc.dart';
 import 'package:flutter_base_template/3rd_layer_domain/interfaces_local_datasources/interface_app_settings_local_datasource.dart';
@@ -19,6 +20,7 @@ Future<void> init() async {
 
   sl.registerLazySingleton<Logger>(
     () => Logger(
+      level: kReleaseMode ? Level.off : Level.debug,
       printer: PrettyPrinter(
         methodCount: 0,
         errorMethodCount: 5,

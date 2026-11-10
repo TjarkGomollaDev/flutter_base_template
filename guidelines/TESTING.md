@@ -70,3 +70,5 @@ If an exceptional situation genuinely requires deviating from a rule (e.g. testi
 // convention-ignore: trivial_assertion Needed to verify vendor library callback initialization without throwing.
 expect(() => client.init(), returnsNormally);
 ```
+
+For file-wide exemptions, use `// convention-ignore-file: <rule> <justification>` at the top of the file.

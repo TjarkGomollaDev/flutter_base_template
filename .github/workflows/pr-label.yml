@@ -1,8 +1,12 @@
-name: PR
+name: PR Label
 
 on:
   pull_request_target:
     types: [opened, edited, synchronize, reopened]
+
+concurrency:
+  group: pr-label-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 
 permissions:
   contents: read

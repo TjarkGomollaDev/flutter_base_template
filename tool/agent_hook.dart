@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'src/architecture_checker.dart';
+import 'src/checker_common.dart';
 import 'src/comment_checker.dart';
 import 'src/markdown_checker.dart';
 import 'src/test_checker.dart';
@@ -70,7 +71,11 @@ String _readStdin() {
   }
 }
 
+String? _cachedDartCmd;
+
 String _findDartCmd() {
+  if (_cachedDartCmd != null) return _cachedDartCmd!;
+
   try {
     final flutterWhich = Process.runSync('which', <String>['flutter']);
     if (flutterWhich.exitCode == 0) {
@@ -85,14 +90,14 @@ String _findDartCmd() {
         final candidate =
             '$binDir${Platform.pathSeparator}cache${Platform.pathSeparator}dart-sdk${Platform.pathSeparator}bin${Platform.pathSeparator}dart';
         if (File(candidate).existsSync()) {
-          return candidate;
+          return _cachedDartCmd = candidate;
         }
       }
     }
   } catch (_) {
     // Fall back to dart command in PATH.
   }
-  return 'dart';
+  return _cachedDartCmd = 'dart';
 }
 
 void _handlePreTool(String harness, Map<String, dynamic> input) {
@@ -227,7 +232,7 @@ void _handlePostTool(String harness, Map<String, dynamic> input) {
   final filePath = _extractFilePath(input);
   if (filePath == null ||
       !filePath.endsWith('.dart') ||
-      _isGenerated(filePath)) {
+      isGeneratedPath(filePath)) {
     _allowPostTool(harness);
     return;
   }
@@ -327,7 +332,7 @@ void _handleStop(String harness, Map<String, dynamic> input) {
   final violations = <ConventionViolation>[];
 
   for (final filePath in modifiedFiles) {
-    if (_isGenerated(filePath)) continue;
+    if (isGeneratedPath(filePath)) continue;
     final file = File(filePath);
     if (!file.existsSync()) continue;
     violations.addAll(_runCheckersOnFile(filePath, file.readAsStringSync()));
@@ -384,7 +389,10 @@ List<String> _getModifiedFiles() {
       final lines = (statusResult.stdout as String).split('\n');
       for (final line in lines) {
         if (line.length > 3) {
-          final file = line.substring(3).trim();
+          var file = line.substring(3).trim();
+          if (file.contains(' -> ')) {
+            file = file.split(' -> ').last.trim();
+          }
           if (file.endsWith('.dart') || file.endsWith('.md')) {
             files.add(file);
           }
@@ -405,7 +413,7 @@ void _handleCheckFiles(List<String> filePaths) {
     final normalized = filePath.replaceAll(r'\', '/');
     final isDart = normalized.endsWith('.dart');
     final isMd = normalized.endsWith('.md');
-    if ((!isDart && !isMd) || _isGenerated(normalized)) continue;
+    if ((!isDart && !isMd) || isGeneratedPath(normalized)) continue;
 
     final file = File(filePath);
     if (!file.existsSync()) continue;
@@ -454,14 +462,4 @@ List<ConventionViolation> _runCheckersOnFile(String filePath, String source) {
   }
 
   return violations;
-}
-
-bool _isGenerated(String path) {
-  return path.contains('lib/l10n/app_localizations') ||
-      path.endsWith('.g.dart') ||
-      path.endsWith('.freezed.dart') ||
-      path.contains('/.dart_tool/') ||
-      path.startsWith('.dart_tool/') ||
-      path.contains('/build/') ||
-      path.startsWith('build/');
 }

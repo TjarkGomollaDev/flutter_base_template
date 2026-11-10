@@ -61,9 +61,8 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.3'
-
-      - name: Install OKF gem
-        run: bundle install
+          bundler-cache: true
+          cache-version: 1
 
       - name: Validate and lint OKF bundle
         run: |

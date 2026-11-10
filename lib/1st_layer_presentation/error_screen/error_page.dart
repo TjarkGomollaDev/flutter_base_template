@@ -7,6 +7,7 @@ class ErrorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: const Key('error_page'),
       body: Center(
         child: Text(context.l10n.errorScreen, textAlign: TextAlign.center),
       ),

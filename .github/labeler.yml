@@ -9,27 +9,15 @@
 
 'type: docs':
   - head-branch: ['^docs/.*']
-  - changed-files:
-      - any-glob-to-any-file:
-          - 'docs/**'
-          - 'guidelines/**'
-          - 'README.md'
-          - 'design/**'
 
 'type: test':
   - head-branch: ['^test/.*']
-  - changed-files:
-      - any-glob-to-any-file:
-          - 'test/**'
 
 'type: chore':
   - head-branch: ['^chore/.*']
 
 'type: ci':
   - head-branch: ['^ci/.*']
-  - changed-files:
-      - any-glob-to-any-file:
-          - '.github/**'
 
 'layer: presentation':
   - changed-files:

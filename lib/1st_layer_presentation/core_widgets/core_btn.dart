@@ -18,19 +18,23 @@ class CoreBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: callback,
-      child: Container(
-        height: AppConstants.BTN_HEIGHT,
-        decoration: BoxDecoration(
-          color: color ?? context.colorPalette.gray6,
-          borderRadius: BorderRadius.circular(AppConstants.RADIUS_XXL),
-        ),
-        child: Center(
-          child: Text(
-            name,
-            style: context.textTheme.labelLarge!.copyWith(color: textColor),
+    return Semantics(
+      button: true,
+      label: name,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: callback,
+        child: Container(
+          height: AppConstants.BTN_HEIGHT,
+          decoration: BoxDecoration(
+            color: color ?? context.colorPalette.gray6,
+            borderRadius: BorderRadius.circular(AppConstants.RADIUS_XXL),
+          ),
+          child: Center(
+            child: Text(
+              name,
+              style: context.textTheme.labelLarge!.copyWith(color: textColor),
+            ),
           ),
         ),
       ),

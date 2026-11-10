@@ -1,7 +1,7 @@
 // Pure-Dart test convention checker.
 import 'dart:io';
 
-import 'comment_checker.dart';
+import 'checker_common.dart';
 
 // Verifies test structure, assertions, finders, and wait conventions.
 class TestChecker {
@@ -10,7 +10,7 @@ class TestChecker {
   // Runs all test checks on the provided file.
   List<ConventionViolation> checkFile(String filePath, [String? content]) {
     final normalized = filePath.replaceAll(r'\', '/');
-    if (_isGenerated(normalized) || !normalized.endsWith('_test.dart')) {
+    if (isGeneratedPath(normalized) || !normalized.endsWith('_test.dart')) {
       return const <ConventionViolation>[];
     }
 
@@ -21,54 +21,15 @@ class TestChecker {
   // Runs test checks on in-memory test source content.
   List<ConventionViolation> checkSource(String filePath, String source) {
     final violations = <ConventionViolation>[];
-    final ignores = _collectIgnores(source);
+    final ignores = collectIgnoresFromSource(source);
 
-    bool isIgnored(String rule, int line) {
-      final fileRules = ignores[-1];
-      if (fileRules != null && fileRules.contains(rule)) {
-        return true;
-      }
-      final lineRules = ignores[line];
-      return lineRules != null && lineRules.contains(rule);
-    }
+    bool isIgnored(String rule, int line) => ignores.isIgnored(rule, line);
 
-    final stripped = _stripCommentsAndStrings(source);
+    final stripped = stripCommentsAndStrings(source);
     _checkTestBlocks(filePath, source, stripped, violations, isIgnored);
     _checkFileWideRules(filePath, stripped, violations, isIgnored);
 
     return violations;
-  }
-
-  bool _isGenerated(String path) {
-    return path.contains('lib/l10n/app_localizations') ||
-        path.endsWith('.g.dart') ||
-        path.endsWith('.freezed.dart') ||
-        path.contains('/.dart_tool/') ||
-        path.startsWith('.dart_tool/') ||
-        path.contains('/build/') ||
-        path.startsWith('build/');
-  }
-
-  Map<int, Set<String>> _collectIgnores(String source) {
-    final result = <int, Set<String>>{};
-    final lines = source.split('\n');
-    final regex = RegExp(
-      r'//\s*convention-ignore:\s*([a-zA-Z0-9_-]+)\s+(\S.*)$',
-    );
-
-    for (var i = 0; i < lines.length; i++) {
-      final lineNum = i + 1;
-      final match = regex.firstMatch(lines[i]);
-      if (match != null) {
-        final rule = match.group(1)!;
-        if (lineNum < 30) {
-          result.putIfAbsent(-1, () => <String>{}).add(rule);
-        }
-        result.putIfAbsent(lineNum, () => <String>{}).add(rule);
-        result.putIfAbsent(lineNum + 1, () => <String>{}).add(rule);
-      }
-    }
-    return result;
   }
 
   void _checkTestBlocks(
@@ -83,7 +44,7 @@ class TestChecker {
 
     for (final match in matches) {
       final openParen = match.end - 1;
-      final startLine = _getLineNumber(source, match.start);
+      final startLine = getLineNumber(source, match.start);
 
       final descInfo = _extractStringLiteral(source, openParen + 1);
       if (descInfo == null) continue;
@@ -149,6 +110,25 @@ class TestChecker {
           );
         }
       }
+
+      if (!isIgnored('no_control_flow_in_tests', startLine)) {
+        final strippedBody = stripCommentsAndStrings(body.code);
+        final controlFlowMatch = _controlFlowRegex.firstMatch(strippedBody);
+        if (controlFlowMatch != null) {
+          final keyword = controlFlowMatch.group(1)!;
+          violations.add(
+            ConventionViolation(
+              rule: 'no_control_flow_in_tests',
+              filePath: filePath,
+              line: startLine,
+              message:
+                  "Test body contains conditional or looping logic ('$keyword'). Tests must follow linear arrange-act-assert",
+              fixHint:
+                  'Remove the $keyword loop/branch or split into separate deterministic tests',
+            ),
+          );
+        }
+      }
     }
   }
 
@@ -158,11 +138,8 @@ class TestChecker {
     List<ConventionViolation> violations,
     bool Function(String rule, int line) isIgnored,
   ) {
-    final layoutRegex = RegExp(
-      r'find\.byType\(\s*(Padding|Container|SizedBox|Column|Row|Center|Expanded|Flexible|Align|Stack|Wrap)\b',
-    );
-    for (final match in layoutRegex.allMatches(stripped)) {
-      final line = _getLineNumber(stripped, match.start);
+    for (final match in _layoutRegex.allMatches(stripped)) {
+      final line = getLineNumber(stripped, match.start);
       if (isIgnored('no_layout_finders', line)) continue;
 
       final widget = match.group(1)!;
@@ -178,9 +155,8 @@ class TestChecker {
       );
     }
 
-    final realWaitRegex = RegExp(r'\b(Future(?:<void>)?\.delayed|sleep)\s*\(');
-    for (final match in realWaitRegex.allMatches(stripped)) {
-      final line = _getLineNumber(stripped, match.start);
+    for (final match in _realWaitRegex.allMatches(stripped)) {
+      final line = getLineNumber(stripped, match.start);
       if (isIgnored('no_real_waits', line)) continue;
 
       if (_isInsideAsyncHelper(stripped, match.start)) continue;
@@ -335,7 +311,7 @@ class TestChecker {
     final contentStart = isTriple ? quoteStart + 3 : quoteStart + 1;
     var i = contentStart;
     final buffer = StringBuffer();
-    final line = _getLineNumber(source, index);
+    final line = getLineNumber(source, index);
 
     while (i < source.length) {
       final c = source[i];
@@ -383,9 +359,17 @@ class TestChecker {
 
   _TestBody? _extractTestBody(String source, int startIndex) {
     final openBrace = source.indexOf('{', startIndex);
-    if (openBrace == -1) return null;
-
+    final arrowIndex = source.indexOf('=>', startIndex);
     final nextSemi = source.indexOf(';', startIndex);
+
+    if (arrowIndex != -1 &&
+        (openBrace == -1 || arrowIndex < openBrace) &&
+        (nextSemi == -1 || arrowIndex < nextSemi)) {
+      final end = nextSemi != -1 ? nextSemi : source.length;
+      return _TestBody(code: source.substring(arrowIndex + 2, end));
+    }
+
+    if (openBrace == -1) return null;
     if (nextSemi != -1 && openBrace > nextSemi) return null;
 
     var depth = 1;
@@ -421,119 +405,17 @@ class TestChecker {
 
     return null;
   }
-
-  String _stripCommentsAndStrings(String source) {
-    final buffer = StringBuffer();
-    final length = source.length;
-    var index = 0;
-
-    while (index < length) {
-      final char = source[index];
-
-      final isRaw =
-          (char == 'r' || char == 'R') &&
-          index + 1 < length &&
-          (source[index + 1] == "'" || source[index + 1] == '"');
-
-      final quoteStart = isRaw ? index + 1 : index;
-      final quoteChar = quoteStart < length ? source[quoteStart] : '';
-
-      if (quoteChar == "'" || quoteChar == '"') {
-        final isTriple =
-            quoteStart + 2 < length &&
-            source[quoteStart + 1] == quoteChar &&
-            source[quoteStart + 2] == quoteChar;
-
-        final start = index;
-        index = isTriple ? quoteStart + 3 : quoteStart + 1;
-
-        while (index < length) {
-          final c = source[index];
-          if (!isRaw && c == r'\' && index + 1 < length) {
-            index += 2;
-            continue;
-          }
-          if (isTriple) {
-            if (c == quoteChar &&
-                index + 2 < length &&
-                source[index + 1] == quoteChar &&
-                source[index + 2] == quoteChar) {
-              index += 3;
-              break;
-            }
-          } else {
-            if (c == quoteChar) {
-              index++;
-              break;
-            }
-            if (c == '\n') break;
-          }
-          index++;
-        }
-
-        for (var i = start; i < index; i++) {
-          final c = source[i];
-          buffer.write(c == '\n' ? '\n' : ' ');
-        }
-        continue;
-      }
-
-      if (char == '/' && index + 1 < length && source[index + 1] == '*') {
-        final start = index;
-        var depth = 1;
-        index += 2;
-        while (index < length && depth > 0) {
-          if (source[index] == '/' &&
-              index + 1 < length &&
-              source[index + 1] == '*') {
-            depth++;
-            index += 2;
-            continue;
-          }
-          if (source[index] == '*' &&
-              index + 1 < length &&
-              source[index + 1] == '/') {
-            depth--;
-            index += 2;
-            continue;
-          }
-          index++;
-        }
-        for (var i = start; i < index; i++) {
-          final c = source[i];
-          buffer.write(c == '\n' ? '\n' : ' ');
-        }
-        continue;
-      }
-
-      if (char == '/' && index + 1 < length && source[index + 1] == '/') {
-        final start = index;
-        while (index < length &&
-            source[index] != '\n' &&
-            source[index] != '\r') {
-          index++;
-        }
-        for (var i = start; i < index; i++) {
-          buffer.write(' ');
-        }
-        continue;
-      }
-
-      buffer.write(char);
-      index++;
-    }
-
-    return buffer.toString();
-  }
-
-  int _getLineNumber(String source, int index) {
-    var line = 1;
-    for (var i = 0; i < index && i < source.length; i++) {
-      if (source[i] == '\n') line++;
-    }
-    return line;
-  }
 }
+
+final RegExp _controlFlowRegex = RegExp(r'\b(for|while|if)\b\s*(\(|$)');
+
+final RegExp _layoutRegex = RegExp(
+  r'find\.byType\(\s*(Padding|Container|SizedBox|Column|Row|Center|Expanded|Flexible|Align|Stack|Wrap)\b',
+);
+
+final RegExp _realWaitRegex = RegExp(
+  r'\b(Future(?:<void>)?\.delayed|sleep)\s*\(',
+);
 
 class _StringLiteral {
   const _StringLiteral({
