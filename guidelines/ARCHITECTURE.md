@@ -87,7 +87,7 @@ return rawList
   - `exceptions/`: Low-level technical and transport exceptions (`ApiException`, `ApiErrorType`, `ExceptionUnknown`) thrown by datasources or clients before mapping to domain failures.
   - `extensions/`: Ergonomic extensions on framework and language types:
     - `BuildContext`: Direct inline access to design tokens (`context.colorPalette`, `context.shadowPalette`, `context.textTheme`), window metrics (`context.sizeOf`, `context.paddingOf`), and localization (`context.l10n`).
-    - `ThemeExtension`: Strongly-typed `ColorPalette` and `ShadowPalette` models for semantic theme consumption.
+    - `ThemeExtension`: Strongly-typed `ColorPalette` and `ShadowPalette` models (`lib/core/extensions/theme_extensions.dart`). Adapt these palettes with the semantic design tokens needed for the app's design system while strictly preserving the class structure (`copyWith` and `lerp`).
     - Primitives: Numeric layout spacers (`.heightSizedBox`, `.widthSizedBox`) and string utilities.
   - `enums/`: Shared technical, presentation, or layout enums that span multiple features.
 - **Rules & Restrictions:**
@@ -106,7 +106,7 @@ The root `lib/` folder contains centralized configuration files wiring the appli
 | `app_dependency_injection.dart` | Service locator setup using `GetIt` (`sl`). Registers singletons, datasources, repositories, and BLoCs. Manages the instance-scoped `AppRouter` with `dispose: (r) => r.router.dispose()`. |
 | `app_bloc_provider.dart` | Global BLoC provision for `MultiBlocProvider`. Requires **mandatory explicit type argument** on every item: `List<BlocProvider<StateStreamableSource<Object?>>> get allBlocProviders => [BlocProvider<ThemeBloc>(...), BlocProvider<LocaleBloc>(...)];`. |
 | `app_router.dart` | Declarative routing configuration via `GoRouter` and `StatefulShellRoute.indexedStack`. Keeps individual tab navigation stacks alive. |
-| `app_theme.dart` | Central light and dark theme definitions using `ColorPalette` and `ShadowPalette` theme extensions. |
+| `app_theme.dart` | Central light and dark theme definitions consuming `ColorPalette` and `ShadowPalette`. Adapt token values to the app's design while preserving structure. |
 | `app_constants.dart` | `SCREAMING_SNAKE_CASE` layout tokens: paddings, corner radii, icon sizes, and component dimensions. No magic numbers in UI code. |
 | `app_bloc_observer.dart` | Central BLoC transition and error observer logging lifecycle events via `Logger`. |
 
