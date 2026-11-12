@@ -4,6 +4,10 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      pub-dependencies:
+        patterns:
+          - "*"
     commit-message:
       prefix: "chore"
       include: "scope"
@@ -20,6 +24,10 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      actions:
+        patterns:
+          - "*"
     commit-message:
       prefix: "ci"
       include: "scope"
