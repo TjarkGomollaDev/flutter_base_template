@@ -19,6 +19,10 @@ updates:
         versions: [">= 3.0.0"]
       - dependency-name: "go_router"
         versions: [">= 18.0.0"]
+      - dependency-name: "intl"
+        versions: [">= 0.20.3"]
+      - dependency-name: "meta"
+        versions: [">= 1.19.0"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
